@@ -11,6 +11,7 @@ import java.io.OutputStream;
 import java.io.PrintStream;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -69,23 +70,35 @@ public class IconsetEnumGenerator {
 			.filter(e->/*e.getPath().endsWith("-icons.js")||*/e.getPath().endsWith("-icons.html"))
 			.forEach(file -> {
 				System.out.println("Generating constants for "+file.getName());
-				String iconset = file.getName().replaceAll("-icons\\.\\w+$", "");
+				String name = file.getName().replaceAll("-icons\\.\\w+$", "");
 				try (InputStream in = file.read()) {
 					String content = new BufferedReader(new InputStreamReader(in)).lines().collect(Collectors.joining("\n"));
-					createCompilationUnit(iconset, content);
+					createCompilationUnit(name, content);
 				} catch (IOException e) {
 					throw new RuntimeException(e);
 				}
 		});
 	}
 	
-	private static void createCompilationUnit(String iconset, String content) throws FileNotFoundException {
+	private static void createCompilationUnit(String cuName, String content) throws FileNotFoundException {
+		Matcher iconsetMatcher = Pattern.compile("<iron-iconset-svg.+?name=\"(.+?)\"").matcher(content);
+		if (!iconsetMatcher.find()) {
+			throw new IllegalArgumentException("iron-iconset-svg not found");
+		}
+		String iconset = iconsetMatcher.group(1);
+		
+		List<String> icons = new ArrayList<>();
+		Matcher matcher = Pattern.compile("<g id=\"([\\w-]+)\">").matcher(content);
+		while (matcher.find()) {
+			icons.add(matcher.group(1));
+		}
+		
 		CompilationUnit cu = new CompilationUnit();
 		cu.setPackageDeclaration(PACKAGE_NAME);
 		
 		cu.addImport("com.vaadin.flow.component.icon.Icon");
 		
-		EnumDeclaration decl = cu.addEnum(StringUtils.capitalize(iconset)+"Icons");
+		EnumDeclaration decl = cu.addEnum(StringUtils.capitalize(cuName)+"Icons");
 				
 		decl.setJavadocComment(new JavadocComment(
 			Stream.of(
@@ -98,9 +111,7 @@ public class IconsetEnumGenerator {
 			).collect(Collectors.joining("\n"))
 		));
 						
-		Matcher matcher = Pattern.compile("<g id=\"([\\w-]+)\">").matcher(content);
-		while (matcher.find()) {
-			String icon = matcher.group(1);
+		for (String icon : icons) {
 			String name = icon.toUpperCase().replace("-", "_");
 			if (!Character.isJavaIdentifierStart(name.charAt(0)) || name.equals("ICONSET") || name.equals("URL")) {
 				name = "ICON_"+name;

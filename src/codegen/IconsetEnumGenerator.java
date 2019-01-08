@@ -100,23 +100,31 @@ public class IconsetEnumGenerator {
 						
 		Matcher matcher = Pattern.compile("<g id=\"(\\w+)\">").matcher(content);
 		while (matcher.find()) {
+			String icon = matcher.group(1);
 			String name = matcher.group(1).toUpperCase().replace("-", "_");
-			decl.addEnumConstant(name);
+			decl.addEnumConstant(name)
+			    .setJavadocComment(new JavadocComment(String.format("The %1$s:%2$s icon. See <a href='URL/%1$s/%2$s'>example</a>.", iconset, icon)));
 		}
 
 		String url = "frontend://bower_components/iron-icons/"+iconset+".html"; 
-		decl.addFieldWithInitializer("String", "ICONSET", new StringLiteralExpr(iconset), PUBLIC, STATIC, FINAL);
-		decl.addFieldWithInitializer("String", "URL", new StringLiteralExpr(url), PUBLIC, STATIC, FINAL);
-		
-		MethodDeclaration toString = decl.addMethod("toString", PUBLIC);
-		toString.setJavadocComment(new JavadocComment("Return the icon name.\n@return the icon name."));
-		toString.setType("String");
-		toString.getBody().get().addStatement(new ReturnStmt("this.name().toLowerCase().replace('_', '-')"));
-	    	     
-		MethodDeclaration method = decl.addMethod("create", PUBLIC);
-		method.setJavadocComment(new JavadocComment("Creates a new {@link Icon} instance with the icon determined by the name.\n@return a new instance of {@link Icon} component"));
-		method.setType("Icon");
-		method.getBody().get().addStatement(new ReturnStmt("new Icon(ICONSET, this.toString())"));
+		decl.addFieldWithInitializer("String", "URL", new StringLiteralExpr(url), PUBLIC, STATIC, FINAL)
+			.setJavadocComment(new JavadocComment(String.format("The HTML resource that contains the %s iconset", iconset)));
+
+		decl.addFieldWithInitializer("String", "ICONSET", new StringLiteralExpr(iconset), PRIVATE, STATIC, FINAL);
+
+		MethodDeclaration getIconName = decl.addMethod("getIconName", PUBLIC);
+		getIconName.setJavadocComment(new JavadocComment(String.format("Return the icon name.\n@return the icon name, i.e. \"%s:name\".",iconset)));
+		getIconName.setType("String");
+		getIconName.getBody().get().addStatement(new ReturnStmt("ICONSET+':'+getIconPart()"));
+
+		MethodDeclaration getIconPart = decl.addMethod("getIconPart", PRIVATE);
+		getIconPart.setType("String");
+		getIconPart.getBody().get().addStatement(new ReturnStmt("this.name().toLowerCase().replace('_', '-')"));
+				
+		MethodDeclaration create = decl.addMethod("create", PUBLIC);
+		create.setJavadocComment(new JavadocComment("Creates a new {@link Icon} instance with the icon determined by the name.\n@return a new instance of {@link Icon} component"));
+		create.setType("Icon");
+		create.getBody().get().addStatement(new ReturnStmt("new Icon(ICONSET, this.getIconPart())"));
 
 		File pkgDirectory = new File(directory, PACKAGE_NAME.replace('.', '/'));
 		pkgDirectory.mkdirs();

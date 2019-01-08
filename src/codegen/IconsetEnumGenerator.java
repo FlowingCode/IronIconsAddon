@@ -98,10 +98,13 @@ public class IconsetEnumGenerator {
 			).collect(Collectors.joining("\n"))
 		));
 						
-		Matcher matcher = Pattern.compile("<g id=\"(\\w+)\">").matcher(content);
+		Matcher matcher = Pattern.compile("<g id=\"([\\w-]+)\">").matcher(content);
 		while (matcher.find()) {
 			String icon = matcher.group(1);
-			String name = matcher.group(1).toUpperCase().replace("-", "_");
+			String name = icon.toUpperCase().replace("-", "_");
+			if (!Character.isJavaIdentifierStart(name.charAt(0)) || name.equals("ICONSET") || name.equals("URL")) {
+				name = "ICON_"+name;
+			}
 			decl.addEnumConstant(name)
 			    .setJavadocComment(new JavadocComment(String.format("The %1$s:%2$s icon. See <a href='URL/%1$s/%2$s'>example</a>.", iconset, icon)));
 		}

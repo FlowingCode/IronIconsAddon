@@ -43,11 +43,14 @@ public class IconsetEnumGenerator {
 
 	private static String tagName;
 	
+	private static String repositoryName;
+	
 	private static File directory = new File("../main/java/");
 	
 	public static void main(String[] args) throws IOException {		
-		tagName = args[0];
-		System.out.println("Using tag "+tagName);
+		repositoryName = args[0];
+		tagName = args[1];
+		System.out.println("Using "+repositoryName+" version "+tagName);
 		
 		System.out.println("Output directory is "+Paths.get(directory.getAbsolutePath()).normalize());
 		if (!directory.exists()) {
@@ -65,7 +68,7 @@ public class IconsetEnumGenerator {
 	
 	private static void execute()  throws IOException {	
 		GitHub github = GitHub.connect();
-		GHRepository repo = github.getRepository("PolymerElements/iron-icons");
+		GHRepository repo = github.getRepository(repositoryName);
 		
 		repo.getDirectoryContent("/", tagName).stream()
 			.filter(e->/*e.getPath().endsWith("-icons.js")||*/e.getPath().endsWith("-icons.html"))
@@ -123,7 +126,8 @@ public class IconsetEnumGenerator {
 			    .setJavadocComment(new JavadocComment(String.format("The %1$s:%2$s icon. See <a href='URL/%1$s/%2$s'>example</a>.", iconset, icon)));
 		}
 
-		String url = "frontend://bower_components/iron-icons/"+iconset+".html"; 
+		String componentName = repositoryName.split("/",2)[1];
+		String url = "frontend://bower_components/"+componentName+"/"+cuName+"-icons.html"; 
 		decl.addFieldWithInitializer("String", "URL", new StringLiteralExpr(url), PUBLIC, STATIC, FINAL)
 			.setJavadocComment(new JavadocComment(String.format("The HTML resource that contains the %s iconset", iconset)));
 

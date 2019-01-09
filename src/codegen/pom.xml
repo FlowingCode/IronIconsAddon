@@ -12,7 +12,8 @@
 	<properties>
 		<maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
-        <iron.icons.tag>UNDEFINED, set -Diron.icons.tag={tag}</iron.icons.tag>
+        <codegen.tag>UNDEFINED</codegen.tag>
+        <codegen.repository>UNDEFINED</codegen.repository>
 	</properties>
 	
     <organization>
@@ -74,7 +75,8 @@
     					<configuration>
     						<mainClass>IconsetEnumGenerator</mainClass>
     						<arguments>
-    							<argument>${iron.icons.tag}</argument>
+    							<argument>${codegen.repository}</argument>
+    							<argument>${codegen.tag}</argument>
     						</arguments>
     					</configuration>
     					<executions>

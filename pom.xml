@@ -16,6 +16,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <iron.icons.version>2.1.1</iron.icons.version>
+        <iron.file.icons.version>2.0.2</iron.file.icons.version>
     </properties>
     
 	<!--
@@ -82,6 +83,12 @@
 		    <version>${iron.icons.version}</version>
 		</dependency>
 		        
+		<dependency>
+   			<groupId>org.webjars.bowergithub.collaborne</groupId>
+   			<artifactId>iron-file-icons</artifactId>
+	   		<version>${iron.file.icons.version}</version>
+	   		<optional>true</optional>
+		</dependency>
     </dependencies>
 
     <build>
@@ -248,23 +255,42 @@
 					  </executions>
 					</plugin>
 				      				
+				    
     				<plugin>	
     					<groupId>org.codehaus.mojo</groupId>
     					<artifactId>exec-maven-plugin</artifactId>
     					<configuration>
     						<executable>mvn</executable>
     						<workingDirectory>${project.basedir}/src/codegen</workingDirectory>
-    						<arguments>-
-    							<argument>-Pgenerate</argument>
-    							<argument>-Diron.icons.tag=v${iron.icons.version}</argument>
-    						</arguments>    						
     					</configuration>
     					<executions>
     						<execution>
+								<id>iron-icons</id>
 								<phase>generate-sources</phase>
 								<goals>
 									<goal>exec</goal>
 								</goals>
+								<configuration>
+								  <arguments>
+									<argument>-Pgenerate</argument>
+									<argument>-Dcodegen.repository=PolymerElements/iron-icons</argument>
+									<argument>-Dcodegen.tag=v${iron.icons.version}</argument>
+								  </arguments>
+								</configuration>
+						    </execution>
+							<execution>
+								<id>iron-file-icons</id>
+								<phase>generate-sources</phase>
+								<goals>
+									<goal>exec</goal>
+								</goals>
+								<configuration>
+								  <arguments>
+									<argument>-Pgenerate</argument>
+									<argument>-Dcodegen.repository=Collaborne/iron-file-icons</argument>
+									<argument>-Dcodegen.tag=${iron.file.icons.version}</argument>
+								  </arguments>
+								</configuration>
 						    </execution>
 						</executions>		    					
     				</plugin>
@@ -275,5 +301,3 @@
     
     </profiles>
 </project>
-
-

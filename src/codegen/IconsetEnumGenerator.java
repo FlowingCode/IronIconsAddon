@@ -30,6 +30,7 @@ import org.kohsuke.github.GHRepository;
 import org.kohsuke.github.GitHub;
 
 import com.github.javaparser.ast.CompilationUnit;
+import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
 import com.github.javaparser.ast.body.EnumDeclaration;
 import com.github.javaparser.ast.body.MethodDeclaration;
 import com.github.javaparser.ast.comments.JavadocComment;
@@ -78,6 +79,8 @@ public class IconsetEnumGenerator {
 					throw new RuntimeException(e);
 				}
 		});
+		
+		createInterface();
 	}
 	
 	private static void createCompilationUnit(String cuName, String content) throws FileNotFoundException {
@@ -95,16 +98,16 @@ public class IconsetEnumGenerator {
 		
 		CompilationUnit cu = new CompilationUnit();
 		cu.setPackageDeclaration(PACKAGE_NAME);
-		
-		cu.addImport("com.vaadin.flow.component.icon.Icon");
+		cu.addImport("com.vaadin.flow.component.icon.IronIcon");
 		
 		EnumDeclaration decl = cu.addEnum(StringUtils.capitalize(cuName)+"Icons");
-				
+		decl.addImplementedType("IronIconEnum");
+		
 		decl.setJavadocComment(new JavadocComment(
 			Stream.of(
 				String.format("Enumeration of all icons in the %s iconset (iron-icons/%s)", iconset, tagName),
 				"<p>",
-				"These instances can be used to create {@link Icon} components either by using",
+				"These instances can be used to create {@link IronIcon} components either by using",
 				"their {@link #create()} method or by passing them to Icon's constructor.",
 				"",
 				"@author Javier Godoy / Flowing Code"
@@ -127,7 +130,7 @@ public class IconsetEnumGenerator {
 		decl.addFieldWithInitializer("String", "ICONSET", new StringLiteralExpr(iconset), PRIVATE, STATIC, FINAL);
 
 		MethodDeclaration getIconName = decl.addMethod("getIconName", PUBLIC);
-		getIconName.setJavadocComment(new JavadocComment(String.format("Return the icon name.\n@return the icon name, i.e. \"%s:name\".",iconset)));
+		getIconName.setJavadocComment(new JavadocComment(String.format("Return the icon name.\n@return the icon name, i.e. {@code \"%s:name\"}..",iconset)));
 		getIconName.setType("String");
 		getIconName.getBody().get().addStatement(new ReturnStmt("ICONSET+':'+getIconPart()"));
 
@@ -136,14 +139,37 @@ public class IconsetEnumGenerator {
 		getIconPart.getBody().get().addStatement(new ReturnStmt("this.name().toLowerCase().replace('_', '-')"));
 				
 		MethodDeclaration create = decl.addMethod("create", PUBLIC);
-		create.setJavadocComment(new JavadocComment("Creates a new {@link Icon} instance with the icon determined by the name.\n@return a new instance of {@link Icon} component"));
-		create.setType("Icon");
-		create.getBody().get().addStatement(new ReturnStmt("new Icon(ICONSET, this.getIconPart())"));
+		create.setJavadocComment(new JavadocComment("Create a new {@link IronIcon} instance with the icon determined by the name.\n@return a new instance of {@link IronIcon} component"));
+		create.setType("IronIcon");
+		create.getBody().get().addStatement(new ReturnStmt("new IronIcon(ICONSET, this.getIconPart())"));
 
+		save(cu);
+	}
+	
+	private static void createInterface() throws FileNotFoundException {
+		CompilationUnit cu = new CompilationUnit();
+		cu.setPackageDeclaration(PACKAGE_NAME);
+		cu.addImport("com.vaadin.flow.component.icon.IronIcon");
+		
+		ClassOrInterfaceDeclaration decl = cu.addInterface("IronIconEnum");
+		MethodDeclaration getIconName = decl.addMethod("getIconName");
+		getIconName.setJavadocComment(new JavadocComment("Return the icon name.\n@return the icon name, i.e. {@code \"iconset:name\"}"));
+		getIconName.setType("String");
+		getIconName.setBody(null);
+		
+		MethodDeclaration create = decl.addMethod("create");
+		create.setJavadocComment(new JavadocComment("Creates a new {@link IronIcon} instance with the icon determined by the name.\n@return a new instance of {@link IronIcon} component"));
+		create.setType("IronIcon");
+		create.setBody(null);
+		
+		save(cu);
+	}
+	
+	private static void save(CompilationUnit cu) throws FileNotFoundException {
 		File pkgDirectory = new File(directory, PACKAGE_NAME.replace('.', '/'));
 		pkgDirectory.mkdirs();
 		
-		PrintStream ps = new PrintStream(new FileOutputStream(new File(pkgDirectory,decl.getNameAsString()+".java")));
+		PrintStream ps = new PrintStream(new FileOutputStream(new File(pkgDirectory,cu.getType(0).getName()+".java")));
 		ps.print(cu);
 		ps.close();
 	}

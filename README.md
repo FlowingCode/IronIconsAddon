@@ -1,12 +1,12 @@
-[![Build Status](https://jenkins.flowingcode.com/job/GraniteAlert-addon/badge/icon)](https://jenkins.flowingcode.com/job/GraniteAlert-addon)
+[![Build Status](https://jenkins.flowingcode.com/job/IronIcons-addon/badge/icon)](https://jenkins.flowingcode.com/job/IronIcons-addon)
 
-# Granite Alert
+# Iron Icons Addon
 
-Vaadin 10 wrapper for https://github.com/LostInBrittany/granite-alert with [themable](https://github.com/vaadin/vaadin-themable-mixin) support.
+Vaadin 10+ constants for https://github.com/PolymerElements/iron-icons
 
 ## Online demo
 
-[Online demo here](http://addonsv10.flowingcode.com/granite-alert)
+[Online demo here](http://addonsv10.flowingcode.com/iron-icons)
 
 ## Building and running demo
 
@@ -38,4 +38,4 @@ Contributions are welcome, but there are no guarantees that they are accepted as
 
 Add-on is distributed under Apache License 2.0. For license terms, see LICENSE.txt.
 
-GraniteAlert is written by Flowing Code S.A.
+IronIcons is written by Flowing Code S.A.

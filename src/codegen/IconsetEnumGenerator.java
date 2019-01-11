@@ -131,7 +131,8 @@ public class IconsetEnumGenerator {
 		decl.addFieldWithInitializer("String", "URL", new StringLiteralExpr(url), PUBLIC, STATIC, FINAL)
 			.setJavadocComment(new JavadocComment(String.format("The HTML resource that contains the %s iconset", iconset)));
 
-		decl.addFieldWithInitializer("String", "ICONSET", new StringLiteralExpr(iconset), PRIVATE, STATIC, FINAL);
+		decl.addFieldWithInitializer("String", "ICONSET", new StringLiteralExpr(iconset), PUBLIC, STATIC, FINAL)
+			.setJavadocComment(new JavadocComment(String.format("The Iconset name, i.e. {@code \"%s\"}.\"",iconset)));
 
 		MethodDeclaration getIconName = decl.addMethod("getIconName", PUBLIC);
 		getIconName.setJavadocComment(new JavadocComment(String.format("Return the icon name.\n@return the icon name, i.e. {@code \"%s:name\"}..",iconset)));

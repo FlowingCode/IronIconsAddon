@@ -20,6 +20,7 @@ package com.flowingcode.vaadin.addons.ironicons;
  * #L%
  */
 
+
 import java.lang.reflect.UndeclaredThrowableException;
 import java.util.List;
 

@@ -52,10 +52,12 @@ import org.kohsuke.github.GHIOException;
 import org.kohsuke.github.GHRepository;
 import org.kohsuke.github.GitHub;
 
+import com.github.javaparser.JavaParser;
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
 import com.github.javaparser.ast.body.EnumDeclaration;
 import com.github.javaparser.ast.body.MethodDeclaration;
+import com.github.javaparser.ast.comments.BlockComment;
 import com.github.javaparser.ast.comments.JavadocComment;
 import com.github.javaparser.ast.expr.ClassExpr;
 import com.github.javaparser.ast.expr.Expression;
@@ -81,13 +83,17 @@ public class IconsetEnumGenerator {
 	
 	private static File target;
 	
+	private static BlockComment license;
+	
 	public static void main(String[] args) throws IOException {
 		
 		repositoryName = getRequiredProperty("codegen.repository"); //the name of repository to be parsed
 		tagName = getRequiredProperty("codegen.tag"); //the tag in the repository to be parsed
 		target = new File(getRequiredProperty("codegen.target")); //the target directory of this build
 		directory = new File(getRequiredProperty("codegen.sources")); //the location of generated sources
-				 
+		
+		license = getLicenseInformation();
+		
 		System.out.println("Using "+repositoryName+" version "+tagName);
 		
 		System.out.println("Output directory is "+Paths.get(directory.getAbsolutePath()).normalize());
@@ -200,6 +206,7 @@ public class IconsetEnumGenerator {
 		pkgDirectory.mkdirs();
 		
 		PrintStream ps = new PrintStream(new FileOutputStream(new File(pkgDirectory,cu.getType(0).getName()+".java")));
+		ps.println(license);
 		ps.print(cu);
 		ps.close();
 	}
@@ -238,4 +245,8 @@ public class IconsetEnumGenerator {
 		save(cu);
 	}
 
+	private static BlockComment getLicenseInformation() throws IOException {
+		CompilationUnit cu = JavaParser.parse(new File("TemplateLicense.java"));
+		return (BlockComment)cu.getOrphanComments().get(0);
+	}
 }

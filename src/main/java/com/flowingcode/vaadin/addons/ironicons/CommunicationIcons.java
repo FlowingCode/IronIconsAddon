@@ -1,47 +1,245 @@
 package com.flowingcode.vaadin.addons.ironicons;
 
-import com.vaadin.flow.component.icon.Icon;
+import com.vaadin.flow.component.icon.IronIcon;
 
 /**
  * Enumeration of all icons in the communication iconset (iron-icons/v2.1.1)
  * <p>
- * These instances can be used to create {@link Icon} components either by using
+ * These instances can be used to create {@link IronIcon} components either by using
  * their {@link #create()} method or by passing them to Icon's constructor.
  *
  * @author Javier Godoy / Flowing Code
  */
-public enum CommunicationIcons {
+public enum CommunicationIcons implements IronIconEnum {
 
+    /**
+     * The communication:business icon. See <a href='URL/communication/business'>example</a>.
+     */
     BUSINESS,
+    /**
+     * The communication:call icon. See <a href='URL/communication/call'>example</a>.
+     */
     CALL,
+    /**
+     * The communication:call-end icon. See <a href='URL/communication/call-end'>example</a>.
+     */
+    CALL_END,
+    /**
+     * The communication:call-made icon. See <a href='URL/communication/call-made'>example</a>.
+     */
+    CALL_MADE,
+    /**
+     * The communication:call-merge icon. See <a href='URL/communication/call-merge'>example</a>.
+     */
+    CALL_MERGE,
+    /**
+     * The communication:call-missed icon. See <a href='URL/communication/call-missed'>example</a>.
+     */
+    CALL_MISSED,
+    /**
+     * The communication:call-missed-outgoing icon. See <a href='URL/communication/call-missed-outgoing'>example</a>.
+     */
+    CALL_MISSED_OUTGOING,
+    /**
+     * The communication:call-received icon. See <a href='URL/communication/call-received'>example</a>.
+     */
+    CALL_RECEIVED,
+    /**
+     * The communication:call-split icon. See <a href='URL/communication/call-split'>example</a>.
+     */
+    CALL_SPLIT,
+    /**
+     * The communication:chat icon. See <a href='URL/communication/chat'>example</a>.
+     */
     CHAT,
+    /**
+     * The communication:chat-bubble icon. See <a href='URL/communication/chat-bubble'>example</a>.
+     */
+    CHAT_BUBBLE,
+    /**
+     * The communication:chat-bubble-outline icon. See <a href='URL/communication/chat-bubble-outline'>example</a>.
+     */
+    CHAT_BUBBLE_OUTLINE,
+    /**
+     * The communication:clear-all icon. See <a href='URL/communication/clear-all'>example</a>.
+     */
+    CLEAR_ALL,
+    /**
+     * The communication:comment icon. See <a href='URL/communication/comment'>example</a>.
+     */
     COMMENT,
+    /**
+     * The communication:contact-mail icon. See <a href='URL/communication/contact-mail'>example</a>.
+     */
+    CONTACT_MAIL,
+    /**
+     * The communication:contact-phone icon. See <a href='URL/communication/contact-phone'>example</a>.
+     */
+    CONTACT_PHONE,
+    /**
+     * The communication:contacts icon. See <a href='URL/communication/contacts'>example</a>.
+     */
     CONTACTS,
+    /**
+     * The communication:dialer-sip icon. See <a href='URL/communication/dialer-sip'>example</a>.
+     */
+    DIALER_SIP,
+    /**
+     * The communication:dialpad icon. See <a href='URL/communication/dialpad'>example</a>.
+     */
     DIALPAD,
+    /**
+     * The communication:email icon. See <a href='URL/communication/email'>example</a>.
+     */
     EMAIL,
+    /**
+     * The communication:forum icon. See <a href='URL/communication/forum'>example</a>.
+     */
     FORUM,
+    /**
+     * The communication:import-contacts icon. See <a href='URL/communication/import-contacts'>example</a>.
+     */
+    IMPORT_CONTACTS,
+    /**
+     * The communication:import-export icon. See <a href='URL/communication/import-export'>example</a>.
+     */
+    IMPORT_EXPORT,
+    /**
+     * The communication:invert-colors-off icon. See <a href='URL/communication/invert-colors-off'>example</a>.
+     */
+    INVERT_COLORS_OFF,
+    /**
+     * The communication:live-help icon. See <a href='URL/communication/live-help'>example</a>.
+     */
+    LIVE_HELP,
+    /**
+     * The communication:location-off icon. See <a href='URL/communication/location-off'>example</a>.
+     */
+    LOCATION_OFF,
+    /**
+     * The communication:location-on icon. See <a href='URL/communication/location-on'>example</a>.
+     */
+    LOCATION_ON,
+    /**
+     * The communication:mail-outline icon. See <a href='URL/communication/mail-outline'>example</a>.
+     */
+    MAIL_OUTLINE,
+    /**
+     * The communication:message icon. See <a href='URL/communication/message'>example</a>.
+     */
     MESSAGE,
+    /**
+     * The communication:no-sim icon. See <a href='URL/communication/no-sim'>example</a>.
+     */
+    NO_SIM,
+    /**
+     * The communication:phone icon. See <a href='URL/communication/phone'>example</a>.
+     */
     PHONE,
+    /**
+     * The communication:phonelink-erase icon. See <a href='URL/communication/phonelink-erase'>example</a>.
+     */
+    PHONELINK_ERASE,
+    /**
+     * The communication:phonelink-lock icon. See <a href='URL/communication/phonelink-lock'>example</a>.
+     */
+    PHONELINK_LOCK,
+    /**
+     * The communication:phonelink-ring icon. See <a href='URL/communication/phonelink-ring'>example</a>.
+     */
+    PHONELINK_RING,
+    /**
+     * The communication:phonelink-setup icon. See <a href='URL/communication/phonelink-setup'>example</a>.
+     */
+    PHONELINK_SETUP,
+    /**
+     * The communication:portable-wifi-off icon. See <a href='URL/communication/portable-wifi-off'>example</a>.
+     */
+    PORTABLE_WIFI_OFF,
+    /**
+     * The communication:present-to-all icon. See <a href='URL/communication/present-to-all'>example</a>.
+     */
+    PRESENT_TO_ALL,
+    /**
+     * The communication:ring-volume icon. See <a href='URL/communication/ring-volume'>example</a>.
+     */
+    RING_VOLUME,
+    /**
+     * The communication:rss-feed icon. See <a href='URL/communication/rss-feed'>example</a>.
+     */
+    RSS_FEED,
+    /**
+     * The communication:screen-share icon. See <a href='URL/communication/screen-share'>example</a>.
+     */
+    SCREEN_SHARE,
+    /**
+     * The communication:speaker-phone icon. See <a href='URL/communication/speaker-phone'>example</a>.
+     */
+    SPEAKER_PHONE,
+    /**
+     * The communication:stay-current-landscape icon. See <a href='URL/communication/stay-current-landscape'>example</a>.
+     */
+    STAY_CURRENT_LANDSCAPE,
+    /**
+     * The communication:stay-current-portrait icon. See <a href='URL/communication/stay-current-portrait'>example</a>.
+     */
+    STAY_CURRENT_PORTRAIT,
+    /**
+     * The communication:stay-primary-landscape icon. See <a href='URL/communication/stay-primary-landscape'>example</a>.
+     */
+    STAY_PRIMARY_LANDSCAPE,
+    /**
+     * The communication:stay-primary-portrait icon. See <a href='URL/communication/stay-primary-portrait'>example</a>.
+     */
+    STAY_PRIMARY_PORTRAIT,
+    /**
+     * The communication:stop-screen-share icon. See <a href='URL/communication/stop-screen-share'>example</a>.
+     */
+    STOP_SCREEN_SHARE,
+    /**
+     * The communication:swap-calls icon. See <a href='URL/communication/swap-calls'>example</a>.
+     */
+    SWAP_CALLS,
+    /**
+     * The communication:textsms icon. See <a href='URL/communication/textsms'>example</a>.
+     */
     TEXTSMS,
-    VOICEMAIL;
+    /**
+     * The communication:voicemail icon. See <a href='URL/communication/voicemail'>example</a>.
+     */
+    VOICEMAIL,
+    /**
+     * The communication:vpn-key icon. See <a href='URL/communication/vpn-key'>example</a>.
+     */
+    VPN_KEY;
 
+    /**
+     * The HTML resource that contains the communication iconset
+     */
+    public static final String URL = "frontend://bower_components/iron-icons/communication-icons.html";
+
+    /**
+     * The Iconset name, i.e. {@code "communication"}."
+     */
     public static final String ICONSET = "communication";
-
-    public static final String URL = "frontend://bower_components/iron-icons/communication.html";
 
     /**
      * Return the icon name.
-     * @return the icon name.
+     * @return the icon name, i.e. {@code "communication:name"}..
      */
-    public String toString() {
+    public String getIconName() {
+        return ICONSET+':'+getIconPart();
+    }
+
+    private String getIconPart() {
         return this.name().toLowerCase().replace('_', '-');
     }
 
     /**
-     * Creates a new {@link Icon} instance with the icon determined by the name.
-     * @return a new instance of {@link Icon} component
+     * Create a new {@link IronIcon} instance with the icon determined by the name.
+     * @return a new instance of {@link IronIcon} component
      */
-    public Icon create() {
-        return new Icon(ICONSET, this.toString());
+    public IronIcon create() {
+        return new IronIcon(ICONSET, this.getIconPart());
     }
 }

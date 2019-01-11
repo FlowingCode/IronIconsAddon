@@ -1,9 +1,11 @@
 import static com.github.javaparser.ast.Modifier.Keyword.*;
+import static com.github.javaparser.JavaParser.*;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -12,13 +14,14 @@ import java.io.PrintStream;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-
-import javax.sound.midi.SysexMessage;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -34,7 +37,13 @@ import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
 import com.github.javaparser.ast.body.EnumDeclaration;
 import com.github.javaparser.ast.body.MethodDeclaration;
 import com.github.javaparser.ast.comments.JavadocComment;
+import com.github.javaparser.ast.expr.ClassExpr;
+import com.github.javaparser.ast.expr.Expression;
+import com.github.javaparser.ast.expr.MethodCallExpr;
+import com.github.javaparser.ast.expr.NameExpr;
 import com.github.javaparser.ast.expr.StringLiteralExpr;
+import com.github.javaparser.ast.expr.TypeExpr;
+import com.github.javaparser.ast.stmt.BlockStmt;
 import com.github.javaparser.ast.stmt.ReturnStmt;
 
 public class IconsetEnumGenerator {
@@ -47,9 +56,14 @@ public class IconsetEnumGenerator {
 	
 	private static File directory = new File("../main/java/");
 	
-	public static void main(String[] args) throws IOException {		
-		repositoryName = args[0];
-		tagName = args[1];
+	private static File target;
+	
+	public static void main(String[] args) throws IOException {
+		
+		repositoryName = getRequiredProperty("codegen.repository");
+		tagName = getRequiredProperty("codegen.tag");
+		target = new File(getRequiredProperty("codegen.target"));
+		
 		System.out.println("Using "+repositoryName+" version "+tagName);
 		
 		System.out.println("Output directory is "+Paths.get(directory.getAbsolutePath()).normalize());
@@ -66,27 +80,33 @@ public class IconsetEnumGenerator {
 		}
 	}
 	
+	private static String getRequiredProperty(String name) {
+		return Optional.ofNullable(System.getProperty(name)).orElseThrow(()->new NoSuchElementException("Missing system property -D"+name));
+	}
+	
 	private static void execute()  throws IOException {	
 		GitHub github = GitHub.connect();
 		GHRepository repo = github.getRepository(repositoryName);
 		
-		repo.getDirectoryContent("/", tagName).stream()
+		List<String> types = repo.getDirectoryContent("/", tagName).stream()
 			.filter(e->/*e.getPath().endsWith("-icons.js")||*/e.getPath().endsWith("-icons.html"))
-			.forEach(file -> {
+			.map(file -> {
 				System.out.println("Generating constants for "+file.getName());
 				String name = file.getName().replaceAll("-icons\\.\\w+$", "");
 				try (InputStream in = file.read()) {
 					String content = new BufferedReader(new InputStreamReader(in)).lines().collect(Collectors.joining("\n"));
-					createCompilationUnit(name, content);
+					return createCompilationUnit(name, content);
 				} catch (IOException e) {
 					throw new RuntimeException(e);
 				}
-		});
+		}).collect(Collectors.toList());
 		
 		createInterface();
+		appendToTypesList(types);
+		generateTypesList();
 	}
 	
-	private static void createCompilationUnit(String cuName, String content) throws FileNotFoundException {
+	private static String createCompilationUnit(String cuName, String content) throws FileNotFoundException {
 		Matcher iconsetMatcher = Pattern.compile("<iron-iconset-svg.+?name=\"(.+?)\"").matcher(content);
 		if (!iconsetMatcher.find()) {
 			throw new IllegalArgumentException("iron-iconset-svg not found");
@@ -149,6 +169,7 @@ public class IconsetEnumGenerator {
 		create.getBody().get().addStatement(new ReturnStmt("new IronIcon(ICONSET, this.getIconPart())"));
 
 		save(cu);
+		return PACKAGE_NAME+"."+decl.getName();
 	}
 	
 	private static void createInterface() throws FileNotFoundException {
@@ -178,4 +199,39 @@ public class IconsetEnumGenerator {
 		ps.print(cu);
 		ps.close();
 	}
+	
+	private static void appendToTypesList(List<String> types) throws FileNotFoundException {
+		File file = new File(target,"typelist");
+		try (PrintStream ps = new PrintStream(new FileOutputStream(file,true))) {
+			types.forEach(ps::println);
+		}
+	}
+	
+	private static void generateTypesList()  throws IOException {
+		CompilationUnit cu = new CompilationUnit();
+		cu.setPackageDeclaration(PACKAGE_NAME);
+
+		cu.addImport("java.util.ArrayList");
+		cu.addImport("java.util.Collections");
+		cu.addImport("java.util.List");
+
+		ClassOrInterfaceDeclaration decl = cu.addClass("IronIconsTypes", ABSTRACT);
+
+		String listType = "List<Class<? extends Enum<? extends IronIconEnum>>>";
+		decl.addFieldWithInitializer(listType, "types", parseExpression("new ArrayList<>()"), PRIVATE, STATIC, FINAL);
+		decl.addConstructor(PRIVATE);
+		
+		File file = new File(target,"typelist");
+		try (BufferedReader in = new BufferedReader(new FileReader(file))) {
+			BlockStmt initializer = decl.addStaticInitializer();
+			in.lines().forEach(type->initializer.addStatement(new MethodCallExpr("types.add", new ClassExpr(parseType(type)))));
+		}
+
+		MethodDeclaration getIconTypes = decl.addMethod("getIconTypes", PUBLIC, STATIC);
+		getIconTypes.setType(listType);
+		getIconTypes.getBody().get().addStatement(new ReturnStmt("Collections.unmodifiableList(types)"));
+		
+		save(cu);
+	}
+
 }

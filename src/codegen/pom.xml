@@ -12,8 +12,6 @@
 	<properties>
 		<maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
-        <codegen.tag>UNDEFINED</codegen.tag>
-        <codegen.repository>UNDEFINED</codegen.repository>
 	</properties>
 	
     <organization>
@@ -74,10 +72,12 @@
     					<artifactId>exec-maven-plugin</artifactId>
     					<configuration>
     						<mainClass>IconsetEnumGenerator</mainClass>
-    						<arguments>
-    							<argument>${codegen.repository}</argument>
-    							<argument>${codegen.tag}</argument>
-    						</arguments>
+    						<systemProperties>
+                    			<systemProperty>
+                        			<key>codegen.target</key>
+                        			<value>${project.build.directory}</value>
+                    			</systemProperty>
+                    		</systemProperties>
     					</configuration>
     					<executions>
     						<execution>

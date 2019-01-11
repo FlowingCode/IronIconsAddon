@@ -2,6 +2,11 @@ package com.flowingcode.vaadin.addons.ironicons;
 
 import com.vaadin.flow.component.icon.IronIcon;
 
+/**
+ * Common interface for all iron-icon enum types.
+ * 
+ * @author Javier Godoy / Flowing Code
+ */
 public interface IronIconEnum {
 
     /**

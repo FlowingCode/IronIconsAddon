@@ -46,6 +46,9 @@ import com.github.javaparser.ast.expr.TypeExpr;
 import com.github.javaparser.ast.stmt.BlockStmt;
 import com.github.javaparser.ast.stmt.ReturnStmt;
 
+/**
+ * @author Javier Godoy / Flowing Code
+ */
 public class IconsetEnumGenerator {
 
 	private static final String PACKAGE_NAME = "com.flowingcode.vaadin.addons.ironicons";

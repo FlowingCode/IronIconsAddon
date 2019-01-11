@@ -8,6 +8,9 @@ import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.H4;
 import com.vaadin.flow.router.Route;
 
+/**
+ * @author Javier Godoy / Flowing Code
+ */
 @Route("")
 @SuppressWarnings("serial")
 public class DemoView extends Div {

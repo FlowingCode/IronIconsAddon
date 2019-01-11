@@ -132,7 +132,10 @@ public class IconsetEnumGenerator {
 		}).collect(Collectors.toList());
 		
 		appendToTypesList(types);
-		generateTypesList();
+		readTypesList(types);
+		
+		generateIronIconsTypes(types);
+		generateIronIconsImports(types);
 	}
 	
 	private static String createCompilationUnit(String cuName, String content) throws FileNotFoundException {
@@ -218,7 +221,15 @@ public class IconsetEnumGenerator {
 		}
 	}
 	
-	private static void generateTypesList()  throws IOException {
+	private static void readTypesList(List<String> types) throws IOException {
+		types.clear();
+		File file = new File(target,"typelist");
+		try (BufferedReader in = new BufferedReader(new FileReader(file))) {
+			in.lines().forEach(types::add);
+		}
+	}
+		 
+	private static void generateIronIconsTypes(List<String> types) throws IOException {
 		CompilationUnit cu = new CompilationUnit();
 		cu.setPackageDeclaration(PACKAGE_NAME);
 
@@ -231,16 +242,31 @@ public class IconsetEnumGenerator {
 		String listType = "List<Class<? extends Enum<? extends IronIconEnum>>>";
 		decl.addFieldWithInitializer(listType, "types", parseExpression("new ArrayList<>()"), PRIVATE, STATIC, FINAL);
 		decl.addConstructor(PRIVATE);
-		
-		File file = new File(target,"typelist");
-		try (BufferedReader in = new BufferedReader(new FileReader(file))) {
-			BlockStmt initializer = decl.addStaticInitializer();
-			in.lines().forEach(type->initializer.addStatement(new MethodCallExpr("types.add", new ClassExpr(parseType(type)))));
-		}
+		BlockStmt initializer = decl.addStaticInitializer();
+		types.forEach(type->initializer.addStatement(new MethodCallExpr("types.add", new ClassExpr(parseType(type)))));
 
 		MethodDeclaration getIconTypes = decl.addMethod("getIconTypes", PUBLIC, STATIC);
 		getIconTypes.setType(listType);
 		getIconTypes.getBody().get().addStatement(new ReturnStmt("Collections.unmodifiableList(types)"));
+		
+		save(cu);
+	}
+
+	private static void generateIronIconsImports(List<String> types)  throws IOException {
+		CompilationUnit cu = new CompilationUnit();
+		cu.setPackageDeclaration(PACKAGE_NAME);
+		
+		cu.addImport("com.vaadin.flow.component.dependency.HtmlImport");
+		
+		ClassOrInterfaceDeclaration decl = cu.addInterface("IronIconsImports");
+		decl.setJavadocComment(new JavadocComment(
+				Stream.of(
+					String.format("Contains {@link HtmlImport}s for all the iconsets defined in the addon"),
+					"@author Javier Godoy / Flowing Code"
+				).collect(Collectors.joining("\n"))
+			));
+		
+		types.forEach(type->decl.addSingleMemberAnnotation("HtmlImport", new NameExpr(type+".URL")));
 		
 		save(cu);
 	}

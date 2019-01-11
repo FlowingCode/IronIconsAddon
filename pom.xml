@@ -15,6 +15,7 @@
         <maven.compiler.target>1.8</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<project.build.generatedSources>${project.basedir}/src/main/generated</project.build.generatedSources>
         <iron.icons.version>2.1.1</iron.icons.version>
         <iron.file.icons.version>2.0.2</iron.file.icons.version>
     </properties>
@@ -113,6 +114,26 @@
                 </configuration>
             </plugin>
     
+			<plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+                <version>3.0.0</version>
+                <executions>
+				  <execution>
+					<id>add-source</id>
+					<phase>generate-sources</phase>
+					<goals>
+					  <goal>add-source</goal>
+					</goals>
+					<configuration>
+					  <sources>
+						<source>${project.build.generatedSources}</source>
+					  </sources>
+					</configuration>
+				  </execution>
+				</executions>
+            </plugin>
+						
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
@@ -216,7 +237,7 @@
     			<defaultGoal>generate-sources</defaultGoal>
     			
     			<plugins>
-    				<!-- clean src/main/java -->
+    				<!-- clean src/main/generated -->
     				<plugin>
 				    	<artifactId>maven-clean-plugin</artifactId>
     					<executions>
@@ -224,7 +245,7 @@
 						    	<configuration>
 							      <filesets>
 							        <fileset>
-							          <directory>${project.build.sourceDirectory}</directory>
+							          <directory>${project.build.generatedSources}</directory>
 							        </fileset>
 						      	   </filesets>
 						    	</configuration>
@@ -236,14 +257,14 @@
 						</executions>				    	
 				  	</plugin>
 				  	
-				  	<!-- mkdir src/main/java -->
+				  	<!-- mkdir src/main/generated -->
 				  	<plugin>
 					  <artifactId>maven-antrun-plugin</artifactId>
 					  <executions>
 					    <execution>
 					      <configuration>
 					        <tasks>
-					          <mkdir dir="${project.build.sourceDirectory}"/>					          
+					          <mkdir dir="${project.build.generatedSources}"/>					          
 					        </tasks>
 					      </configuration>
 					      <phase>generate-sources</phase>
@@ -274,6 +295,7 @@
 									<argument>-Pgenerate</argument>
 									<argument>-Dcodegen.repository=PolymerElements/iron-icons</argument>
 									<argument>-Dcodegen.tag=v${iron.icons.version}</argument>
+									<argument>-Dcodegen.sources=${project.build.generatedSources}</argument>
 								  </arguments>
 								</configuration>
 						    </execution>
@@ -288,6 +310,7 @@
 									<argument>-Pgenerate</argument>
 									<argument>-Dcodegen.repository=Collaborne/iron-file-icons</argument>
 									<argument>-Dcodegen.tag=${iron.file.icons.version}</argument>
+									<argument>-Dcodegen.sources=${project.build.generatedSources}</argument>
 								  </arguments>
 								</configuration>
 						    </execution>

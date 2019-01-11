@@ -54,16 +54,17 @@ public class IconsetEnumGenerator {
 	
 	private static String repositoryName;
 	
-	private static File directory = new File("../main/java/");
+	private static File directory;
 	
 	private static File target;
 	
 	public static void main(String[] args) throws IOException {
 		
-		repositoryName = getRequiredProperty("codegen.repository");
-		tagName = getRequiredProperty("codegen.tag");
-		target = new File(getRequiredProperty("codegen.target"));
-		
+		repositoryName = getRequiredProperty("codegen.repository"); //the name of repository to be parsed
+		tagName = getRequiredProperty("codegen.tag"); //the tag in the repository to be parsed
+		target = new File(getRequiredProperty("codegen.target")); //the target directory of this build
+		directory = new File(getRequiredProperty("codegen.sources")); //the location of generated sources
+				 
 		System.out.println("Using "+repositoryName+" version "+tagName);
 		
 		System.out.println("Output directory is "+Paths.get(directory.getAbsolutePath()).normalize());
@@ -101,7 +102,6 @@ public class IconsetEnumGenerator {
 				}
 		}).collect(Collectors.toList());
 		
-		createInterface();
 		appendToTypesList(types);
 		generateTypesList();
 	}
@@ -170,25 +170,6 @@ public class IconsetEnumGenerator {
 
 		save(cu);
 		return PACKAGE_NAME+"."+decl.getName();
-	}
-	
-	private static void createInterface() throws FileNotFoundException {
-		CompilationUnit cu = new CompilationUnit();
-		cu.setPackageDeclaration(PACKAGE_NAME);
-		cu.addImport("com.vaadin.flow.component.icon.IronIcon");
-		
-		ClassOrInterfaceDeclaration decl = cu.addInterface("IronIconEnum");
-		MethodDeclaration getIconName = decl.addMethod("getIconName");
-		getIconName.setJavadocComment(new JavadocComment("Return the icon name.\n@return the icon name, i.e. {@code \"iconset:name\"}"));
-		getIconName.setType("String");
-		getIconName.setBody(null);
-		
-		MethodDeclaration create = decl.addMethod("create");
-		create.setJavadocComment(new JavadocComment("Creates a new {@link IronIcon} instance with the icon determined by the name.\n@return a new instance of {@link IronIcon} component"));
-		create.setType("IronIcon");
-		create.setBody(null);
-		
-		save(cu);
 	}
 	
 	private static void save(CompilationUnit cu) throws FileNotFoundException {

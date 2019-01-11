@@ -8,6 +8,7 @@ public abstract class IronIconsReflect {
 	private IronIconsReflect() {}
 		
 	public static List<Class<? extends Enum<? extends IronIconEnum>>> getIconTypes() {
+		//IronIconsTypes is generated
 		return IronIconsTypes.getIconTypes();
 	}
 		

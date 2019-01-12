@@ -59,6 +59,7 @@ import com.github.javaparser.ast.body.EnumDeclaration;
 import com.github.javaparser.ast.body.MethodDeclaration;
 import com.github.javaparser.ast.comments.BlockComment;
 import com.github.javaparser.ast.comments.JavadocComment;
+import com.github.javaparser.ast.comments.LineComment;
 import com.github.javaparser.ast.expr.ClassExpr;
 import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.expr.MethodCallExpr;
@@ -115,7 +116,11 @@ public class IconsetEnumGenerator {
 	}
 	
 	private static void execute()  throws IOException {	
+		//it is possible to use GitHub.connectAnonymously, since no operation requires authentication
+		//however, the anonymous quota is too low for development purposes
 		GitHub github = GitHub.connect();
+		
+		
 		GHRepository repo = github.getRepository(repositoryName);
 		
 		List<String> types = repo.getDirectoryContent("/", tagName).stream()
@@ -238,7 +243,11 @@ public class IconsetEnumGenerator {
 		cu.addImport("java.util.List");
 
 		ClassOrInterfaceDeclaration decl = cu.addClass("IronIconsTypes", ABSTRACT);
-
+		decl.setJavadocComment(new JavadocComment(
+				"Generated file that contains a list of all the enumeration types defined in the addon.\n"+
+				"@author Javier Godoy / Flowing Code\n"+
+				"@see IronIconsReflect#getIconTypes()"));
+					
 		String listType = "List<Class<? extends Enum<? extends IronIconEnum>>>";
 		decl.addFieldWithInitializer(listType, "types", parseExpression("new ArrayList<>()"), PRIVATE, STATIC, FINAL);
 		decl.addConstructor(PRIVATE);

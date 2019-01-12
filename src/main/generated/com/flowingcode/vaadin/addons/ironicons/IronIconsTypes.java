@@ -24,6 +24,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * Generated file that contains a list of all the enumeration types defined in the addon.
+ * @author Javier Godoy / Flowing Code
+ * @see IronIconsReflect#getIconTypes()
+ */
 abstract class IronIconsTypes {
 
     private static final List<Class<? extends Enum<? extends IronIconEnum>>> types = new ArrayList<>();

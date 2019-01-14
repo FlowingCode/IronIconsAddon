@@ -22,14 +22,14 @@ package com.flowingcode.vaadin.addons.ironicons;
 
 import java.util.stream.Stream;
 
+import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dependency.HtmlImport;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.H4;
-import com.vaadin.flow.component.html.Span;
-import com.vaadin.flow.component.icon.IronIcon;
 import com.vaadin.flow.component.orderedlayout.FlexLayout;
 import com.vaadin.flow.router.BeforeEvent;
 import com.vaadin.flow.router.HasUrlParameter;
+import com.vaadin.flow.router.OptionalParameter;
 import com.vaadin.flow.router.Route;
 
 /**
@@ -42,7 +42,7 @@ public class DemoView extends Div implements IronIconsImports {
 		
 	{
 		setSizeFull();
-		getStyle().set("margin", "8px");
+		addClassName("main-icon-view");
 
 		getIconTypes().forEach(type -> {
 			FlexLayout layout = new FlexLayout();
@@ -51,14 +51,12 @@ public class DemoView extends Div implements IronIconsImports {
 			add(layout);
 			
 			for (IronIconEnum e : type.getEnumConstants()) {
-				IronIcon icon = e.create();
 				String name = ((Enum<?>)e).name().toLowerCase().replace('_', '-');
-				icon.setSize("24px");
-				Div div = new Div();
-				div.add(icon, new Span(name));
-				div.setWidth("250px");
-				layout.add(div);
-				layout.setFlexGrow(0, div);
+				Button btn = new Button(name, e.create());
+				btn.setWidth("240px");
+				btn.addClickListener(ev->getUI().get().navigate(DemoViewSingle.class, e.getIconName().replace(':', '/')));
+				layout.add(btn);
+				layout.setFlexGrow(0, btn);
 			}
 		});
 	}	

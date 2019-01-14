@@ -116,10 +116,13 @@ public class IconsetEnumGenerator {
 	}
 	
 	private static void execute()  throws IOException {	
-		//it is possible to use GitHub.connectAnonymously, since no operation requires authentication
-		//however, the anonymous quota is too low for development purposes
-		GitHub github = GitHub.connect();
-		
+		//Prefer connecting with authentication since the anonymous quota may be exhausted after a few builds 
+		GitHub github;
+		try {
+			github = GitHub.connect();
+		} catch (IOException e) {
+			github = GitHub.connectAnonymously();
+		}
 		
 		GHRepository repo = github.getRepository(repositoryName);
 		

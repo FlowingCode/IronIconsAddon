@@ -20,13 +20,16 @@ package com.flowingcode.vaadin.addons.ironicons;
  * #L%
  */
 
+import java.util.stream.Stream;
 
-import static com.flowingcode.vaadin.addons.ironicons.IronIconsReflect.getIconTypes;
-
-import com.vaadin.flow.component.AttachEvent;
-import com.vaadin.flow.component.UI;
+import com.vaadin.flow.component.dependency.HtmlImport;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.H4;
+import com.vaadin.flow.component.html.Span;
+import com.vaadin.flow.component.icon.IronIcon;
+import com.vaadin.flow.component.orderedlayout.FlexLayout;
+import com.vaadin.flow.router.BeforeEvent;
+import com.vaadin.flow.router.HasUrlParameter;
 import com.vaadin.flow.router.Route;
 
 /**
@@ -34,21 +37,36 @@ import com.vaadin.flow.router.Route;
  */
 @Route("")
 @SuppressWarnings("serial")
-public class DemoView extends Div {
+@HtmlImport("frontend://styles/shared-styles.html")
+public class DemoView extends Div implements IronIconsImports {
 		
 	{
-		for (Class<? extends Enum<? extends IronIconEnum>> type : getIconTypes()) {
+		setSizeFull();
+		getStyle().set("margin", "8px");
+
+		getIconTypes().forEach(type -> {
+			FlexLayout layout = new FlexLayout();
+			layout.getStyle().set("flex-wrap", "wrap");
 			add(new H4(IronIconsReflect.getIconset(type)));
-			for (Enum<? extends IronIconEnum> e : type.getEnumConstants()) {
-				IronIconEnum icon = (IronIconEnum)e;
-				add(icon.create());
+			add(layout);
+			
+			for (IronIconEnum e : type.getEnumConstants()) {
+				IronIcon icon = e.create();
+				String name = ((Enum<?>)e).name().toLowerCase().replace('_', '-');
+				icon.setSize("24px");
+				Div div = new Div();
+				div.add(icon, new Span(name));
+				div.setWidth("250px");
+				layout.add(div);
+				layout.setFlexGrow(0, div);
 			}
-		}
+		});
 	}	
 		
-	@Override
-	protected void onAttach(AttachEvent attachEvent) {		
-		getUI().map(UI::getPage).ifPresent(page->getIconTypes().stream().map(IronIconsReflect::getUrl).forEach(page::addHtmlImport));
+	private static Stream<Class<? extends IronIconEnum>> getIconTypes() {
+		return Stream.concat(
+			Stream.of(IronIcons.class),
+			IronIconsReflect.getIconTypes().stream().filter(e -> e!=IronIcons.class)); 
 	}
-	
+
 }

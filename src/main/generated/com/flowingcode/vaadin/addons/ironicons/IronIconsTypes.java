@@ -31,7 +31,7 @@ import java.util.List;
  */
 abstract class IronIconsTypes {
 
-    private static final List<Class<? extends Enum<? extends IronIconEnum>>> types = new ArrayList<>();
+    private static final List<Class<? extends IronIconEnum>> types = new ArrayList<>();
 
     private IronIconsTypes() {
     }
@@ -51,7 +51,7 @@ abstract class IronIconsTypes {
         types.add(com.flowingcode.vaadin.addons.ironicons.FileIcons.class);
     }
 
-    public static List<Class<? extends Enum<? extends IronIconEnum>>> getIconTypes() {
+    public static List<Class<? extends IronIconEnum>> getIconTypes() {
         return Collections.unmodifiableList(types);
     }
 }

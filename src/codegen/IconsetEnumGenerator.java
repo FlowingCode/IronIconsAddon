@@ -251,7 +251,7 @@ public class IconsetEnumGenerator {
 				"@author Javier Godoy / Flowing Code\n"+
 				"@see IronIconsReflect#getIconTypes()"));
 					
-		String listType = "List<Class<? extends Enum<? extends IronIconEnum>>>";
+		String listType = "List<Class<? extends IronIconEnum>>";
 		decl.addFieldWithInitializer(listType, "types", parseExpression("new ArrayList<>()"), PRIVATE, STATIC, FINAL);
 		decl.addConstructor(PRIVATE);
 		BlockStmt initializer = decl.addStaticInitializer();

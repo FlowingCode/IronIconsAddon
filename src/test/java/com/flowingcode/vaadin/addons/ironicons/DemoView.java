@@ -1,5 +1,11 @@
 package com.flowingcode.vaadin.addons.ironicons;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.WeakHashMap;
+
 /*-
  * #%L
  * Iron Icons
@@ -22,14 +28,19 @@ package com.flowingcode.vaadin.addons.ironicons;
 
 import java.util.stream.Stream;
 
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.tuple.Pair;
+
+import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dependency.HtmlImport;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.H4;
+import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.orderedlayout.FlexLayout;
-import com.vaadin.flow.router.BeforeEvent;
-import com.vaadin.flow.router.HasUrlParameter;
-import com.vaadin.flow.router.OptionalParameter;
+import com.vaadin.flow.component.textfield.TextField;
+import com.vaadin.flow.data.value.ValueChangeMode;
 import com.vaadin.flow.router.Route;
 
 /**
@@ -39,16 +50,30 @@ import com.vaadin.flow.router.Route;
 @SuppressWarnings("serial")
 @HtmlImport("frontend://styles/shared-styles.html")
 public class DemoView extends Div implements IronIconsImports {
-		
+	
+	private static final Map<UI, String> searchString = new WeakHashMap<>();
+	
+	private final Map<String, Component> icons = new HashMap<>();
+	private final List<Pair<H4, FlexLayout>> layouts = new ArrayList<>();
+	private final Div noResults = new Div(new Span("Your search did not match any icons."));
+			
 	{
+		TextField filter = new TextField();
+		filter.setValueChangeMode(ValueChangeMode.EAGER);
+        filter.addClassName("filter");
+        filter.addValueChangeListener(ev->this.applyFilter(filter.getValue()));
+        filter.setPlaceholder("Search icons");
+        add(filter);
+        
 		setSizeFull();
 		addClassName("main-icon-view");
-
+		
 		getIconTypes().forEach(type -> {
 			FlexLayout layout = new FlexLayout();
 			layout.getStyle().set("flex-wrap", "wrap");
-			add(new H4(IronIconsReflect.getIconset(type)));
-			add(layout);
+			H4 h4 = new H4(IronIconsReflect.getIconset(type));
+			add(h4, layout);
+			layouts.add(Pair.of(h4,layout));
 			
 			for (IronIconEnum e : type.getEnumConstants()) {
 				String name = ((Enum<?>)e).name().toLowerCase().replace('_', '-');
@@ -57,14 +82,28 @@ public class DemoView extends Div implements IronIconsImports {
 				btn.addClickListener(ev->getUI().get().navigate(DemoViewSingle.class, e.getIconName().replace(':', '/')));
 				layout.add(btn);
 				layout.setFlexGrow(0, btn);
+				icons.put(e.getIconName(), btn);
 			}
 		});
-	}	
 		
+		add(noResults);
+		noResults.addClassName("no-results");
+		noResults.setVisible(false);
+		
+		addAttachListener(ev->getUI().map(searchString::get).ifPresent(filter::setValue));
+	}
+	
 	private static Stream<Class<? extends IronIconEnum>> getIconTypes() {
 		return Stream.concat(
 			Stream.of(IronIcons.class),
 			IronIconsReflect.getIconTypes().stream().filter(e -> e!=IronIcons.class)); 
+	}
+
+	private void applyFilter(String value) {
+		searchString.put(getUI().get(), value);
+		icons.forEach((name,icon)->icon.setVisible(StringUtils.isBlank(value) || name.contains(value)));
+		layouts.forEach(p->p.getLeft().setVisible(p.getRight().getChildren().anyMatch(Component::isVisible)));
+		noResults.setVisible(layouts.stream().noneMatch(p->p.getLeft().isVisible()));
 	}
 
 }

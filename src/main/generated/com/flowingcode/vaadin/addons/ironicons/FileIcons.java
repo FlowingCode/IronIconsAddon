@@ -33,55 +33,55 @@ import com.vaadin.flow.component.icon.IronIcon;
 public enum FileIcons implements IronIconEnum {
 
     /**
-     * The file:audio icon. See <a href='URL/file/audio'>example</a>.
+     * The file:audio icon.See <a href='https://addonsv10.flowingcode.com/iron-icons/view//file/audio'>example</a>
      */
     AUDIO,
     /**
-     * The file:chart icon. See <a href='URL/file/chart'>example</a>.
+     * The file:chart icon.See <a href='https://addonsv10.flowingcode.com/iron-icons/view//file/chart'>example</a>
      */
     CHART,
     /**
-     * The file:document icon. See <a href='URL/file/document'>example</a>.
+     * The file:document icon.See <a href='https://addonsv10.flowingcode.com/iron-icons/view//file/document'>example</a>
      */
     DOCUMENT,
     /**
-     * The file:excel icon. See <a href='URL/file/excel'>example</a>.
+     * The file:excel icon.See <a href='https://addonsv10.flowingcode.com/iron-icons/view//file/excel'>example</a>
      */
     EXCEL,
     /**
-     * The file:html icon. See <a href='URL/file/html'>example</a>.
+     * The file:html icon.See <a href='https://addonsv10.flowingcode.com/iron-icons/view//file/html'>example</a>
      */
     HTML,
     /**
-     * The file:image icon. See <a href='URL/file/image'>example</a>.
+     * The file:image icon.See <a href='https://addonsv10.flowingcode.com/iron-icons/view//file/image'>example</a>
      */
     IMAGE,
     /**
-     * The file:pdf icon. See <a href='URL/file/pdf'>example</a>.
+     * The file:pdf icon.See <a href='https://addonsv10.flowingcode.com/iron-icons/view//file/pdf'>example</a>
      */
     PDF,
     /**
-     * The file:powerpoint icon. See <a href='URL/file/powerpoint'>example</a>.
+     * The file:powerpoint icon.See <a href='https://addonsv10.flowingcode.com/iron-icons/view//file/powerpoint'>example</a>
      */
     POWERPOINT,
     /**
-     * The file:generic icon. See <a href='URL/file/generic'>example</a>.
+     * The file:generic icon.See <a href='https://addonsv10.flowingcode.com/iron-icons/view//file/generic'>example</a>
      */
     GENERIC,
     /**
-     * The file:video icon. See <a href='URL/file/video'>example</a>.
+     * The file:video icon.See <a href='https://addonsv10.flowingcode.com/iron-icons/view//file/video'>example</a>
      */
     VIDEO,
     /**
-     * The file:word icon. See <a href='URL/file/word'>example</a>.
+     * The file:word icon.See <a href='https://addonsv10.flowingcode.com/iron-icons/view//file/word'>example</a>
      */
     WORD,
     /**
-     * The file:xml icon. See <a href='URL/file/xml'>example</a>.
+     * The file:xml icon.See <a href='https://addonsv10.flowingcode.com/iron-icons/view//file/xml'>example</a>
      */
     XML,
     /**
-     * The file:zip icon. See <a href='URL/file/zip'>example</a>.
+     * The file:zip icon.See <a href='https://addonsv10.flowingcode.com/iron-icons/view//file/zip'>example</a>
      */
     ZIP;
 

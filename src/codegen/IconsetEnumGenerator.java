@@ -80,6 +80,8 @@ public class IconsetEnumGenerator {
 	
 	private static String repositoryName;
 	
+	private static String demoUrl;
+	
 	private static File directory;
 	
 	private static File target;
@@ -92,6 +94,7 @@ public class IconsetEnumGenerator {
 		tagName = getRequiredProperty("codegen.tag"); //the tag in the repository to be parsed
 		target = new File(getRequiredProperty("codegen.target")); //the target directory of this build
 		directory = new File(getRequiredProperty("codegen.sources")); //the location of generated sources
+		demoUrl = System.getProperty("codegen.demoUrl"); //the URL prefix to the single icon view demo
 		
 		license = getLicenseInformation();
 		
@@ -182,8 +185,16 @@ public class IconsetEnumGenerator {
 			if (!Character.isJavaIdentifierStart(name.charAt(0)) || name.equals("ICONSET") || name.equals("URL")) {
 				name = "ICON_"+name;
 			}
+			
+			String seeExample;
+			if (demoUrl!=null) {
+				seeExample = "See <a href='"+demoUrl+"/%1$s/%2$s'>example</a>";
+			} else {
+				seeExample = "";
+			}
+			
 			decl.addEnumConstant(name)
-			    .setJavadocComment(new JavadocComment(String.format("The %1$s:%2$s icon. See <a href='URL/%1$s/%2$s'>example</a>.", iconset, icon)));
+			    .setJavadocComment(new JavadocComment(String.format("The %1$s:%2$s icon."+seeExample, iconset, icon)));
 		}
 
 		String componentName = repositoryName.split("/",2)[1];

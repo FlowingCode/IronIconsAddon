@@ -18,6 +18,7 @@
 		<project.build.generatedSources>${project.basedir}/src/main/generated</project.build.generatedSources>
         <iron.icons.version>2.1.1</iron.icons.version>
         <iron.file.icons.version>2.0.2</iron.file.icons.version>
+        <codegen.demoUrl>https://addonsv10.flowingcode.com/iron-icons/view/</codegen.demoUrl>
     </properties>
     
 	<!--
@@ -295,6 +296,7 @@
 									<argument>-Dcodegen.repository=PolymerElements/iron-icons</argument>
 									<argument>-Dcodegen.tag=v${iron.icons.version}</argument>
 									<argument>-Dcodegen.sources=${project.build.generatedSources}</argument>
+									<argument>-Dcodegen.demoUrl=${codegen.demoUrl}</argument>
 								  </arguments>
 								</configuration>
 						    </execution>
@@ -310,6 +312,7 @@
 									<argument>-Dcodegen.repository=Collaborne/iron-file-icons</argument>
 									<argument>-Dcodegen.tag=${iron.file.icons.version}</argument>
 									<argument>-Dcodegen.sources=${project.build.generatedSources}</argument>
+									<argument>-Dcodegen.demoUrl=${codegen.demoUrl}</argument>
 								  </arguments>
 								</configuration>
 						    </execution>

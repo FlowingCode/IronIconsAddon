@@ -35,7 +35,7 @@ public enum IronIcons implements IronIconEnum {
     /**
      * The icons:3d-rotation icon.See <a href='https://addonsv10.flowingcode.com/iron-icons/view//icons/3d-rotation'>example</a>
      */
-    ICON_3D_ROTATION,
+    _3D_ROTATION,
     /**
      * The icons:accessibility icon.See <a href='https://addonsv10.flowingcode.com/iron-icons/view//icons/accessibility'>example</a>
      */
@@ -1288,7 +1288,7 @@ public enum IronIcons implements IronIconEnum {
     }
 
     private String getIconPart() {
-        return this.name().toLowerCase().replace('_', '-');
+        return this.name().toLowerCase().replace('_', '-').replaceFirst("^-", "");
     }
 
     /**

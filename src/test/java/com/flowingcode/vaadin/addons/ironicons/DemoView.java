@@ -76,7 +76,7 @@ public class DemoView extends Div implements IronIconsImports {
 			layouts.add(Pair.of(h4,layout));
 			
 			for (IronIconEnum e : type.getEnumConstants()) {
-				String name = ((Enum<?>)e).name().toLowerCase().replace('_', '-');
+				String name = ((Enum<?>)e).name().toLowerCase().replace('_', '-').replaceFirst("^-", "");				
 				Button btn = new Button(name, e.create());
 				btn.setWidth("240px");
 				btn.addClickListener(ev->getUI().get().navigate(DemoViewSingle.class, e.getIconName().replace(':', '/')));

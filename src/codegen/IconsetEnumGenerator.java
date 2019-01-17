@@ -180,10 +180,12 @@ public class IconsetEnumGenerator {
 			).collect(Collectors.joining("\n"))
 		));
 						
+		boolean hasUnderscorePrefix = false;
 		for (String icon : icons) {
 			String name = icon.toUpperCase().replace("-", "_");
 			if (!Character.isJavaIdentifierStart(name.charAt(0)) || name.equals("ICONSET") || name.equals("URL")) {
-				name = "ICON_"+name;
+				name = "_"+name;
+				hasUnderscorePrefix = true;
 			}
 			
 			String seeExample;
@@ -210,9 +212,10 @@ public class IconsetEnumGenerator {
 		getIconName.setType("String");
 		getIconName.getBody().get().addStatement(new ReturnStmt("ICONSET+':'+getIconPart()"));
 
+		String removeUnderscorePrefix = hasUnderscorePrefix?".replaceFirst(\"^-\", \"\")":"";
 		MethodDeclaration getIconPart = decl.addMethod("getIconPart", PRIVATE);
 		getIconPart.setType("String");
-		getIconPart.getBody().get().addStatement(new ReturnStmt("this.name().toLowerCase().replace('_', '-')"));
+		getIconPart.getBody().get().addStatement(new ReturnStmt("this.name().toLowerCase().replace('_', '-')"+removeUnderscorePrefix));
 				
 		MethodDeclaration create = decl.addMethod("create", PUBLIC);
 		create.setJavadocComment(new JavadocComment("Create a new {@link IronIcon} instance with the icon determined by the name.\n@return a new instance of {@link IronIcon} component"));

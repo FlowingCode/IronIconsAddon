@@ -71,9 +71,10 @@ public class DemoViewSingle extends Div implements HasUrlParameter<String>  {
 			html.add(new H4("Icon name"));
 			html.add(new Span(icon.getIconName()));
 			
+			String url = IronIconsReflect.getUrl(icon.getClass()).replace("frontend://bower_components","..");
 			html.add(new H4("HTML Example"));
-			Span htmlExample = new Span(String.format("<iron-icon icon=\"%s\"></iron-icon>", icon.getIconName()));
-			html.add(htmlExample);
+			html.add(new Span(String.format("<link rel=\"import\" href=\"%s\">", url)));
+			html.add(new Span(String.format("<iron-icon icon=\"%s\"></iron-icon>", icon.getIconName())));
 			
 			String type = icon.getClass().getSimpleName();
 			String name = ((Enum<?>)icon).name();
@@ -83,8 +84,8 @@ public class DemoViewSingle extends Div implements HasUrlParameter<String>  {
 			java.add(new Span(type+"."+name));
 			
 			java.add(new H4("Java Example"));
-			Span javaExample = new Span("add("+type+"."+name+".create());");
-			java.add(javaExample);
+			java.add(new Span(String.format("@HtmlImport(%s.URL)", type)));
+			java.add(new Span(String.format("add(%s.%s.create());",type,name)));
 			
 			Div layout = new Div(html,java);
 			layout.addClassName("main-layout");

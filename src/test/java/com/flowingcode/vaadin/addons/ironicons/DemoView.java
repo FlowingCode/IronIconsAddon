@@ -1,11 +1,5 @@
 package com.flowingcode.vaadin.addons.ironicons;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.WeakHashMap;
-
 /*-
  * #%L
  * Iron Icons
@@ -26,6 +20,11 @@ import java.util.WeakHashMap;
  * #L%
  */
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.WeakHashMap;
 import java.util.stream.Stream;
 
 import org.apache.commons.lang3.StringUtils;
@@ -35,6 +34,7 @@ import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dependency.HtmlImport;
+import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.H4;
 import com.vaadin.flow.component.html.Span;
@@ -60,17 +60,17 @@ public class DemoView extends Div implements IronIconsImports {
 	{
 		TextField filter = new TextField();
 		filter.setValueChangeMode(ValueChangeMode.EAGER);
-        filter.addClassName("filter");
+        filter.setWidth("100%");
         filter.addValueChangeListener(ev->this.applyFilter(filter.getValue()));
         filter.setPlaceholder("Search icons");
         add(filter);
         
-		setSizeFull();
+        setSizeUndefined();
 		addClassName("main-icon-view");
 		
 		getIconTypes().forEach(type -> {
 			FlexLayout layout = new FlexLayout();
-			layout.getStyle().set("flex-wrap", "wrap");
+			layout.addClassName("flex");
 			H4 h4 = new H4(IronIconsReflect.getIconset(type));
 			add(h4, layout);
 			layouts.add(Pair.of(h4,layout));
@@ -78,8 +78,7 @@ public class DemoView extends Div implements IronIconsImports {
 			for (IronIconEnum e : type.getEnumConstants()) {
 				String name = ((Enum<?>)e).name().toLowerCase().replace('_', '-').replaceFirst("^-", "");				
 				Button btn = new Button(name, e.create());
-				btn.setWidth("240px");
-				btn.addClickListener(ev->getUI().get().navigate(DemoViewSingle.class, e.getIconName().replace(':', '/')));
+				btn.addClickListener(ev->showDetails(e));
 				layout.add(btn);
 				layout.setFlexGrow(0, btn);
 				icons.put(e.getIconName(), btn);
@@ -91,6 +90,16 @@ public class DemoView extends Div implements IronIconsImports {
 		noResults.setVisible(false);
 		
 		addAttachListener(ev->getUI().map(searchString::get).ifPresent(filter::setValue));
+	}
+	
+	private void showDetails(IronIconEnum e) {
+		DemoViewSingle view = new DemoViewSingle();
+		Button close = new Button(IronIcons.CLOSE.create());
+		close.addClassName("close-button");
+		view.setParameter(null, e.getIconName().replace(':', '/'));
+		Dialog dlg = new Dialog(close, view);
+		dlg.open();
+		close.addClickListener(ev->dlg.close());
 	}
 	
 	private static Stream<Class<? extends IronIconEnum>> getIconTypes() {

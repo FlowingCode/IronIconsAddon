@@ -29,20 +29,27 @@
 			margin: 4px;
 		}
 		
+		vaadin-dialog-overlay {
+		    max-width: 80%;
+		    left: -32px;
+		}
+		
 		.main-icon-view {
 			margin: 8px;
 		}
-
-		.main-icon-view .filter {
-		    width: calc(100% - 16px);
+	
+		.main-icon-view .flex {
+			flex-wrap: wrap;
 		}
-		
+	
 		.main-icon-view vaadin-button  {
 			margin: 4px;
 			margin-bottom: 8px;
 		    background: white;
     		color: black;
     		cursor: pointer;
+    		min-width: 240px;
+    		flex-grow: 0;
 		}
 		
 		.main-icon-view vaadin-button iron-icon {
@@ -56,11 +63,11 @@
     		top: 8px;
     		left: 34px;
     	}
-
+		
 		.main-icon-view .no-results {
 			margin-left: 16px;
 		}
-		     			
+		
 		.single-icon-view iron-icon:nth-of-type(1) {
 			width:  16px;
 			height: 16px;
@@ -88,5 +95,22 @@
 			flex-direction: row;
 			flex-wrap: wrap;
 		}
+		
+		.close-button {
+    		color: black;
+		    background: white;
+   		    cursor: pointer;
+    		position: absolute;
+    		right: 0;
+    		top: 0;
+    	}
+    	
+    	.close-button:hover::before { 
+    		background: white;
+    	}
+    	
+    	.close-button:hover::before {
+    		opacity: 0 !important;
+    	}
 	</style>
 </custom-style>

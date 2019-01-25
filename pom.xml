@@ -21,14 +21,12 @@
         <codegen.demoUrl>https://addonsv10.flowingcode.com/iron-icons/view/</codegen.demoUrl>
     </properties>
     
-	<!--
 	<scm>
         <url>https://github.com/FlowingCode/IronIconsAddon</url>
         <connection>scm:git:git://github.com/FlowingCode/IronIconsAddon.git</connection>
         <developerConnection>scm:git:ssh://git@github.com:/FlowingCode/IronIconsAddon.git</developerConnection>
         <tag>HEAD</tag>
     </scm>
-	-->
 	
     <organization>
        <name>Flowing Code</name>

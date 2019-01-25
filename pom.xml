@@ -18,7 +18,7 @@
 		<project.build.generatedSources>${project.basedir}/src/main/generated</project.build.generatedSources>
         <iron.icons.version>2.1.1</iron.icons.version>
         <iron.file.icons.version>2.0.2</iron.file.icons.version>
-        <codegen.demoUrl>https://addonsv10.flowingcode.com/iron-icons/view/</codegen.demoUrl>
+        <codegen.demoUrl>https://addonsv10.flowingcode.com/iron-icons/view</codegen.demoUrl>
     </properties>
     
 	<scm>

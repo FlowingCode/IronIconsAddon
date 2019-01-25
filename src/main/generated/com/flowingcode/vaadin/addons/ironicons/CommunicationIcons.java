@@ -33,203 +33,203 @@ import com.vaadin.flow.component.icon.IronIcon;
 public enum CommunicationIcons implements IronIconEnum {
 
     /**
-     * The communication:business icon.See <a href='https://addonsv10.flowingcode.com/iron-icons/view//communication/business'>example</a>
+     * The communication:business icon.See <a href='https://addonsv10.flowingcode.com/iron-icons/view/communication/business'>example</a>
      */
     BUSINESS,
     /**
-     * The communication:call icon.See <a href='https://addonsv10.flowingcode.com/iron-icons/view//communication/call'>example</a>
+     * The communication:call icon.See <a href='https://addonsv10.flowingcode.com/iron-icons/view/communication/call'>example</a>
      */
     CALL,
     /**
-     * The communication:call-end icon.See <a href='https://addonsv10.flowingcode.com/iron-icons/view//communication/call-end'>example</a>
+     * The communication:call-end icon.See <a href='https://addonsv10.flowingcode.com/iron-icons/view/communication/call-end'>example</a>
      */
     CALL_END,
     /**
-     * The communication:call-made icon.See <a href='https://addonsv10.flowingcode.com/iron-icons/view//communication/call-made'>example</a>
+     * The communication:call-made icon.See <a href='https://addonsv10.flowingcode.com/iron-icons/view/communication/call-made'>example</a>
      */
     CALL_MADE,
     /**
-     * The communication:call-merge icon.See <a href='https://addonsv10.flowingcode.com/iron-icons/view//communication/call-merge'>example</a>
+     * The communication:call-merge icon.See <a href='https://addonsv10.flowingcode.com/iron-icons/view/communication/call-merge'>example</a>
      */
     CALL_MERGE,
     /**
-     * The communication:call-missed icon.See <a href='https://addonsv10.flowingcode.com/iron-icons/view//communication/call-missed'>example</a>
+     * The communication:call-missed icon.See <a href='https://addonsv10.flowingcode.com/iron-icons/view/communication/call-missed'>example</a>
      */
     CALL_MISSED,
     /**
-     * The communication:call-missed-outgoing icon.See <a href='https://addonsv10.flowingcode.com/iron-icons/view//communication/call-missed-outgoing'>example</a>
+     * The communication:call-missed-outgoing icon.See <a href='https://addonsv10.flowingcode.com/iron-icons/view/communication/call-missed-outgoing'>example</a>
      */
     CALL_MISSED_OUTGOING,
     /**
-     * The communication:call-received icon.See <a href='https://addonsv10.flowingcode.com/iron-icons/view//communication/call-received'>example</a>
+     * The communication:call-received icon.See <a href='https://addonsv10.flowingcode.com/iron-icons/view/communication/call-received'>example</a>
      */
     CALL_RECEIVED,
     /**
-     * The communication:call-split icon.See <a href='https://addonsv10.flowingcode.com/iron-icons/view//communication/call-split'>example</a>
+     * The communication:call-split icon.See <a href='https://addonsv10.flowingcode.com/iron-icons/view/communication/call-split'>example</a>
      */
     CALL_SPLIT,
     /**
-     * The communication:chat icon.See <a href='https://addonsv10.flowingcode.com/iron-icons/view//communication/chat'>example</a>
+     * The communication:chat icon.See <a href='https://addonsv10.flowingcode.com/iron-icons/view/communication/chat'>example</a>
      */
     CHAT,
     /**
-     * The communication:chat-bubble icon.See <a href='https://addonsv10.flowingcode.com/iron-icons/view//communication/chat-bubble'>example</a>
+     * The communication:chat-bubble icon.See <a href='https://addonsv10.flowingcode.com/iron-icons/view/communication/chat-bubble'>example</a>
      */
     CHAT_BUBBLE,
     /**
-     * The communication:chat-bubble-outline icon.See <a href='https://addonsv10.flowingcode.com/iron-icons/view//communication/chat-bubble-outline'>example</a>
+     * The communication:chat-bubble-outline icon.See <a href='https://addonsv10.flowingcode.com/iron-icons/view/communication/chat-bubble-outline'>example</a>
      */
     CHAT_BUBBLE_OUTLINE,
     /**
-     * The communication:clear-all icon.See <a href='https://addonsv10.flowingcode.com/iron-icons/view//communication/clear-all'>example</a>
+     * The communication:clear-all icon.See <a href='https://addonsv10.flowingcode.com/iron-icons/view/communication/clear-all'>example</a>
      */
     CLEAR_ALL,
     /**
-     * The communication:comment icon.See <a href='https://addonsv10.flowingcode.com/iron-icons/view//communication/comment'>example</a>
+     * The communication:comment icon.See <a href='https://addonsv10.flowingcode.com/iron-icons/view/communication/comment'>example</a>
      */
     COMMENT,
     /**
-     * The communication:contact-mail icon.See <a href='https://addonsv10.flowingcode.com/iron-icons/view//communication/contact-mail'>example</a>
+     * The communication:contact-mail icon.See <a href='https://addonsv10.flowingcode.com/iron-icons/view/communication/contact-mail'>example</a>
      */
     CONTACT_MAIL,
     /**
-     * The communication:contact-phone icon.See <a href='https://addonsv10.flowingcode.com/iron-icons/view//communication/contact-phone'>example</a>
+     * The communication:contact-phone icon.See <a href='https://addonsv10.flowingcode.com/iron-icons/view/communication/contact-phone'>example</a>
      */
     CONTACT_PHONE,
     /**
-     * The communication:contacts icon.See <a href='https://addonsv10.flowingcode.com/iron-icons/view//communication/contacts'>example</a>
+     * The communication:contacts icon.See <a href='https://addonsv10.flowingcode.com/iron-icons/view/communication/contacts'>example</a>
      */
     CONTACTS,
     /**
-     * The communication:dialer-sip icon.See <a href='https://addonsv10.flowingcode.com/iron-icons/view//communication/dialer-sip'>example</a>
+     * The communication:dialer-sip icon.See <a href='https://addonsv10.flowingcode.com/iron-icons/view/communication/dialer-sip'>example</a>
      */
     DIALER_SIP,
     /**
-     * The communication:dialpad icon.See <a href='https://addonsv10.flowingcode.com/iron-icons/view//communication/dialpad'>example</a>
+     * The communication:dialpad icon.See <a href='https://addonsv10.flowingcode.com/iron-icons/view/communication/dialpad'>example</a>
      */
     DIALPAD,
     /**
-     * The communication:email icon.See <a href='https://addonsv10.flowingcode.com/iron-icons/view//communication/email'>example</a>
+     * The communication:email icon.See <a href='https://addonsv10.flowingcode.com/iron-icons/view/communication/email'>example</a>
      */
     EMAIL,
     /**
-     * The communication:forum icon.See <a href='https://addonsv10.flowingcode.com/iron-icons/view//communication/forum'>example</a>
+     * The communication:forum icon.See <a href='https://addonsv10.flowingcode.com/iron-icons/view/communication/forum'>example</a>
      */
     FORUM,
     /**
-     * The communication:import-contacts icon.See <a href='https://addonsv10.flowingcode.com/iron-icons/view//communication/import-contacts'>example</a>
+     * The communication:import-contacts icon.See <a href='https://addonsv10.flowingcode.com/iron-icons/view/communication/import-contacts'>example</a>
      */
     IMPORT_CONTACTS,
     /**
-     * The communication:import-export icon.See <a href='https://addonsv10.flowingcode.com/iron-icons/view//communication/import-export'>example</a>
+     * The communication:import-export icon.See <a href='https://addonsv10.flowingcode.com/iron-icons/view/communication/import-export'>example</a>
      */
     IMPORT_EXPORT,
     /**
-     * The communication:invert-colors-off icon.See <a href='https://addonsv10.flowingcode.com/iron-icons/view//communication/invert-colors-off'>example</a>
+     * The communication:invert-colors-off icon.See <a href='https://addonsv10.flowingcode.com/iron-icons/view/communication/invert-colors-off'>example</a>
      */
     INVERT_COLORS_OFF,
     /**
-     * The communication:live-help icon.See <a href='https://addonsv10.flowingcode.com/iron-icons/view//communication/live-help'>example</a>
+     * The communication:live-help icon.See <a href='https://addonsv10.flowingcode.com/iron-icons/view/communication/live-help'>example</a>
      */
     LIVE_HELP,
     /**
-     * The communication:location-off icon.See <a href='https://addonsv10.flowingcode.com/iron-icons/view//communication/location-off'>example</a>
+     * The communication:location-off icon.See <a href='https://addonsv10.flowingcode.com/iron-icons/view/communication/location-off'>example</a>
      */
     LOCATION_OFF,
     /**
-     * The communication:location-on icon.See <a href='https://addonsv10.flowingcode.com/iron-icons/view//communication/location-on'>example</a>
+     * The communication:location-on icon.See <a href='https://addonsv10.flowingcode.com/iron-icons/view/communication/location-on'>example</a>
      */
     LOCATION_ON,
     /**
-     * The communication:mail-outline icon.See <a href='https://addonsv10.flowingcode.com/iron-icons/view//communication/mail-outline'>example</a>
+     * The communication:mail-outline icon.See <a href='https://addonsv10.flowingcode.com/iron-icons/view/communication/mail-outline'>example</a>
      */
     MAIL_OUTLINE,
     /**
-     * The communication:message icon.See <a href='https://addonsv10.flowingcode.com/iron-icons/view//communication/message'>example</a>
+     * The communication:message icon.See <a href='https://addonsv10.flowingcode.com/iron-icons/view/communication/message'>example</a>
      */
     MESSAGE,
     /**
-     * The communication:no-sim icon.See <a href='https://addonsv10.flowingcode.com/iron-icons/view//communication/no-sim'>example</a>
+     * The communication:no-sim icon.See <a href='https://addonsv10.flowingcode.com/iron-icons/view/communication/no-sim'>example</a>
      */
     NO_SIM,
     /**
-     * The communication:phone icon.See <a href='https://addonsv10.flowingcode.com/iron-icons/view//communication/phone'>example</a>
+     * The communication:phone icon.See <a href='https://addonsv10.flowingcode.com/iron-icons/view/communication/phone'>example</a>
      */
     PHONE,
     /**
-     * The communication:phonelink-erase icon.See <a href='https://addonsv10.flowingcode.com/iron-icons/view//communication/phonelink-erase'>example</a>
+     * The communication:phonelink-erase icon.See <a href='https://addonsv10.flowingcode.com/iron-icons/view/communication/phonelink-erase'>example</a>
      */
     PHONELINK_ERASE,
     /**
-     * The communication:phonelink-lock icon.See <a href='https://addonsv10.flowingcode.com/iron-icons/view//communication/phonelink-lock'>example</a>
+     * The communication:phonelink-lock icon.See <a href='https://addonsv10.flowingcode.com/iron-icons/view/communication/phonelink-lock'>example</a>
      */
     PHONELINK_LOCK,
     /**
-     * The communication:phonelink-ring icon.See <a href='https://addonsv10.flowingcode.com/iron-icons/view//communication/phonelink-ring'>example</a>
+     * The communication:phonelink-ring icon.See <a href='https://addonsv10.flowingcode.com/iron-icons/view/communication/phonelink-ring'>example</a>
      */
     PHONELINK_RING,
     /**
-     * The communication:phonelink-setup icon.See <a href='https://addonsv10.flowingcode.com/iron-icons/view//communication/phonelink-setup'>example</a>
+     * The communication:phonelink-setup icon.See <a href='https://addonsv10.flowingcode.com/iron-icons/view/communication/phonelink-setup'>example</a>
      */
     PHONELINK_SETUP,
     /**
-     * The communication:portable-wifi-off icon.See <a href='https://addonsv10.flowingcode.com/iron-icons/view//communication/portable-wifi-off'>example</a>
+     * The communication:portable-wifi-off icon.See <a href='https://addonsv10.flowingcode.com/iron-icons/view/communication/portable-wifi-off'>example</a>
      */
     PORTABLE_WIFI_OFF,
     /**
-     * The communication:present-to-all icon.See <a href='https://addonsv10.flowingcode.com/iron-icons/view//communication/present-to-all'>example</a>
+     * The communication:present-to-all icon.See <a href='https://addonsv10.flowingcode.com/iron-icons/view/communication/present-to-all'>example</a>
      */
     PRESENT_TO_ALL,
     /**
-     * The communication:ring-volume icon.See <a href='https://addonsv10.flowingcode.com/iron-icons/view//communication/ring-volume'>example</a>
+     * The communication:ring-volume icon.See <a href='https://addonsv10.flowingcode.com/iron-icons/view/communication/ring-volume'>example</a>
      */
     RING_VOLUME,
     /**
-     * The communication:rss-feed icon.See <a href='https://addonsv10.flowingcode.com/iron-icons/view//communication/rss-feed'>example</a>
+     * The communication:rss-feed icon.See <a href='https://addonsv10.flowingcode.com/iron-icons/view/communication/rss-feed'>example</a>
      */
     RSS_FEED,
     /**
-     * The communication:screen-share icon.See <a href='https://addonsv10.flowingcode.com/iron-icons/view//communication/screen-share'>example</a>
+     * The communication:screen-share icon.See <a href='https://addonsv10.flowingcode.com/iron-icons/view/communication/screen-share'>example</a>
      */
     SCREEN_SHARE,
     /**
-     * The communication:speaker-phone icon.See <a href='https://addonsv10.flowingcode.com/iron-icons/view//communication/speaker-phone'>example</a>
+     * The communication:speaker-phone icon.See <a href='https://addonsv10.flowingcode.com/iron-icons/view/communication/speaker-phone'>example</a>
      */
     SPEAKER_PHONE,
     /**
-     * The communication:stay-current-landscape icon.See <a href='https://addonsv10.flowingcode.com/iron-icons/view//communication/stay-current-landscape'>example</a>
+     * The communication:stay-current-landscape icon.See <a href='https://addonsv10.flowingcode.com/iron-icons/view/communication/stay-current-landscape'>example</a>
      */
     STAY_CURRENT_LANDSCAPE,
     /**
-     * The communication:stay-current-portrait icon.See <a href='https://addonsv10.flowingcode.com/iron-icons/view//communication/stay-current-portrait'>example</a>
+     * The communication:stay-current-portrait icon.See <a href='https://addonsv10.flowingcode.com/iron-icons/view/communication/stay-current-portrait'>example</a>
      */
     STAY_CURRENT_PORTRAIT,
     /**
-     * The communication:stay-primary-landscape icon.See <a href='https://addonsv10.flowingcode.com/iron-icons/view//communication/stay-primary-landscape'>example</a>
+     * The communication:stay-primary-landscape icon.See <a href='https://addonsv10.flowingcode.com/iron-icons/view/communication/stay-primary-landscape'>example</a>
      */
     STAY_PRIMARY_LANDSCAPE,
     /**
-     * The communication:stay-primary-portrait icon.See <a href='https://addonsv10.flowingcode.com/iron-icons/view//communication/stay-primary-portrait'>example</a>
+     * The communication:stay-primary-portrait icon.See <a href='https://addonsv10.flowingcode.com/iron-icons/view/communication/stay-primary-portrait'>example</a>
      */
     STAY_PRIMARY_PORTRAIT,
     /**
-     * The communication:stop-screen-share icon.See <a href='https://addonsv10.flowingcode.com/iron-icons/view//communication/stop-screen-share'>example</a>
+     * The communication:stop-screen-share icon.See <a href='https://addonsv10.flowingcode.com/iron-icons/view/communication/stop-screen-share'>example</a>
      */
     STOP_SCREEN_SHARE,
     /**
-     * The communication:swap-calls icon.See <a href='https://addonsv10.flowingcode.com/iron-icons/view//communication/swap-calls'>example</a>
+     * The communication:swap-calls icon.See <a href='https://addonsv10.flowingcode.com/iron-icons/view/communication/swap-calls'>example</a>
      */
     SWAP_CALLS,
     /**
-     * The communication:textsms icon.See <a href='https://addonsv10.flowingcode.com/iron-icons/view//communication/textsms'>example</a>
+     * The communication:textsms icon.See <a href='https://addonsv10.flowingcode.com/iron-icons/view/communication/textsms'>example</a>
      */
     TEXTSMS,
     /**
-     * The communication:voicemail icon.See <a href='https://addonsv10.flowingcode.com/iron-icons/view//communication/voicemail'>example</a>
+     * The communication:voicemail icon.See <a href='https://addonsv10.flowingcode.com/iron-icons/view/communication/voicemail'>example</a>
      */
     VOICEMAIL,
     /**
-     * The communication:vpn-key icon.See <a href='https://addonsv10.flowingcode.com/iron-icons/view//communication/vpn-key'>example</a>
+     * The communication:vpn-key icon.See <a href='https://addonsv10.flowingcode.com/iron-icons/view/communication/vpn-key'>example</a>
      */
     VPN_KEY;
 

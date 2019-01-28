@@ -21,6 +21,7 @@
 package com.flowingcode.vaadin.addons.ironicons;
 
 import com.vaadin.flow.component.icon.IronIcon;
+import com.vaadin.flow.component.dependency.HtmlImport;
 
 /**
  * Enumeration of all icons in the notification iconset (iron-icons/v2.1.1)
@@ -275,7 +276,19 @@ public enum NotificationIcons implements IronIconEnum {
      * Create a new {@link IronIcon} instance with the icon determined by the name.
      * @return a new instance of {@link IronIcon} component
      */
-    public IronIcon create() {
-        return new IronIcon(ICONSET, this.getIconPart());
+    public Icon create() {
+        return new Icon(this.getIconPart());
+    }
+
+    /**
+     * Server side component for {@code NotificationIcons}
+     */
+    @HtmlImport(NotificationIcons.URL)
+    @SuppressWarnings("serial")
+    public final static class Icon extends IronIcon {
+
+         Icon(String icon) {
+            super(ICONSET, icon);
+        }
     }
 }

@@ -55,6 +55,7 @@ import org.kohsuke.github.GitHub;
 import com.github.javaparser.JavaParser;
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
+import com.github.javaparser.ast.body.ConstructorDeclaration;
 import com.github.javaparser.ast.body.EnumDeclaration;
 import com.github.javaparser.ast.body.MethodDeclaration;
 import com.github.javaparser.ast.comments.BlockComment;
@@ -219,9 +220,24 @@ public class IconsetEnumGenerator {
 				
 		MethodDeclaration create = decl.addMethod("create", PUBLIC);
 		create.setJavadocComment(new JavadocComment("Create a new {@link IronIcon} instance with the icon determined by the name.\n@return a new instance of {@link IronIcon} component"));
-		create.setType("IronIcon");
-		create.getBody().get().addStatement(new ReturnStmt("new IronIcon(ICONSET, this.getIconPart())"));
+		create.setType("Icon");
+		create.getBody().get().addStatement(new ReturnStmt("new Icon(this.getIconPart())"));
 
+		//create a server side component for the iconset
+		cu.addImport("com.vaadin.flow.component.dependency.HtmlImport");
+		ClassOrInterfaceDeclaration icon = new ClassOrInterfaceDeclaration();
+		icon.setName("Icon");
+		icon.addModifier(PUBLIC, FINAL, STATIC);
+		icon.addExtendedType("IronIcon");
+		icon.setJavadocComment(new JavadocComment(String.format("Server side component for {@code %s}", decl.getName())));
+		icon.addSingleMemberAnnotation("HtmlImport", new NameExpr(decl.getName()+".URL"));
+		icon.addSingleMemberAnnotation("SuppressWarnings", new StringLiteralExpr("serial"));
+		decl.addMember(icon);
+		
+		ConstructorDeclaration ctor = icon.addConstructor(PACKAGE_PRIVATE);
+		ctor.addParameter("String", "icon");
+		ctor.getBody().addStatement(new MethodCallExpr("super", new NameExpr("ICONSET"), new NameExpr("icon")));
+		
 		save(cu);
 		return PACKAGE_NAME+"."+decl.getName();
 	}

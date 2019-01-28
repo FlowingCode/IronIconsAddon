@@ -50,7 +50,7 @@ import com.vaadin.flow.router.Route;
 @SuppressWarnings("serial")
 @HtmlImport("frontend://styles/shared-styles.html")
 public class DemoView extends Div implements IronIconsImports {
-	
+//this demo uses reflection, for a simple example that does not use reflection see SimpleDemoView 	
 	private static final Map<UI, String> searchString = new WeakHashMap<>();
 	
 	private final Map<String, Component> icons = new HashMap<>();

@@ -45,12 +45,6 @@ IronIcons Addon is written by Flowing Code S.A.
 
 ## Using the icons
 
-- Add an HTML import to the component that contains the icon:
-```
-@HtmlImport(IronIcons.URL)
-public class MyView extends Div  ... 
-```
-
 - Use the `create` method from the enum type, for instantiating a new `IronIcon` component based on that icon.
 ```
 add(new Button("SAVE", IronIcons.SAVE.create()));

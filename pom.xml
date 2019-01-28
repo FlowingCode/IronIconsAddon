@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.flowingcode.addons</groupId>
     <artifactId>iron-icons</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>1.0.0</version>
     <name>Iron Icons</name>
     <description>Integration of iron-icons for Vaadin 10</description>
     
@@ -25,7 +24,7 @@
         <url>https://github.com/FlowingCode/IronIconsAddon</url>
         <connection>scm:git:git://github.com/FlowingCode/IronIconsAddon.git</connection>
         <developerConnection>scm:git:ssh://git@github.com:/FlowingCode/IronIconsAddon.git</developerConnection>
-        <tag>HEAD</tag>
+        <tag>iron-icons-1.0.0</tag>
     </scm>
 	
     <organization>
@@ -262,7 +261,7 @@
 					    <execution>
 					      <configuration>
 					        <tasks>
-					          <mkdir dir="${project.build.generatedSources}"/>					          
+					          <mkdir dir="${project.build.generatedSources}" />					          
 					        </tasks>
 					      </configuration>
 					      <phase>generate-sources</phase>

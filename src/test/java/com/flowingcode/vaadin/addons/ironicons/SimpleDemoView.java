@@ -1,5 +1,3 @@
-package com.flowingcode.vaadin.addons.ironicons;
-
 /*-
  * #%L
  * Iron Icons
@@ -19,6 +17,7 @@ package com.flowingcode.vaadin.addons.ironicons;
  * limitations under the License.
  * #L%
  */
+package com.flowingcode.vaadin.addons.ironicons;
 
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;

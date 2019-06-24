@@ -109,7 +109,7 @@ public class DemoView extends Div implements IronIconsImports {
 
 	private void applyFilter(String value) {
 		searchString.put(getUI().get(), value);
-		icons.forEach((name,icon)->icon.setVisible(StringUtils.isBlank(value) || name.contains(value)));
+		icons.forEach((name,icon)->icon.setVisible(StringUtils.isBlank(value) || name.toLowerCase().contains(value.toLowerCase())));
 		layouts.forEach(p->p.getLeft().setVisible(p.getRight().getChildren().anyMatch(Component::isVisible)));
 		noResults.setVisible(layouts.stream().noneMatch(p->p.getLeft().isVisible()));
 	}

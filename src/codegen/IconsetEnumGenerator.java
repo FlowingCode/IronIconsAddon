@@ -223,12 +223,27 @@ public class IconsetEnumGenerator {
 		create.setType("Icon");
 		create.getBody().get().addStatement(new ReturnStmt("new Icon(this.getIconPart())"));
 
+		cu.addImport("com.vaadin.flow.component.ClickEvent"); 
+		cu.addImport("com.vaadin.flow.component.ComponentEventListener");
+		create = decl.addMethod("create", PUBLIC);
+		create.setJavadocComment(new JavadocComment("Create a new {@link IronIcon} instance with the icon determined by the name and a listener for click events.\n"
+				+ "@param listener the event listener for click events\n"
+				+ "@return a new instance of {@link IronIcon} component"));
+		create.setType("Icon");
+		create.addParameter("ComponentEventListener<ClickEvent<IronIcon>>", "listener");
+		create.getBody().get().addStatement(parseStatement("Icon icon = create();"));
+		create.getBody().get().addStatement(parseStatement("icon.addClickListener(listener);"));
+		create.getBody().get().addStatement(new ReturnStmt("icon"));
+
 		//create a server side component for the iconset
 		cu.addImport("com.vaadin.flow.component.dependency.HtmlImport");
+		cu.addImport("com.vaadin.flow.component.ClickNotifier");
+		
 		ClassOrInterfaceDeclaration icon = new ClassOrInterfaceDeclaration();
 		icon.setName("Icon");
 		icon.addModifier(PUBLIC, FINAL, STATIC);
 		icon.addExtendedType("IronIcon");
+		icon.addImplementedType("ClickNotifier<IronIcon>");
 		icon.setJavadocComment(new JavadocComment(String.format("Server side component for {@code %s}", decl.getName())));
 		icon.addSingleMemberAnnotation("HtmlImport", new NameExpr(decl.getName()+".URL"));
 		icon.addSingleMemberAnnotation("SuppressWarnings", new StringLiteralExpr("serial"));

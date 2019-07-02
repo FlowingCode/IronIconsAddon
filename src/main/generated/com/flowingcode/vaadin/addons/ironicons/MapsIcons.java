@@ -21,7 +21,10 @@
 package com.flowingcode.vaadin.addons.ironicons;
 
 import com.vaadin.flow.component.icon.IronIcon;
+import com.vaadin.flow.component.ClickEvent;
+import com.vaadin.flow.component.ComponentEventListener;
 import com.vaadin.flow.component.dependency.HtmlImport;
+import com.vaadin.flow.component.ClickNotifier;
 
 /**
  * Enumeration of all icons in the maps iconset (iron-icons/v2.1.1)
@@ -337,11 +340,22 @@ public enum MapsIcons implements IronIconEnum {
     }
 
     /**
+     * Create a new {@link IronIcon} instance with the icon determined by the name and a listener for click events.
+     * @param listener the event listener for click events
+     * @return a new instance of {@link IronIcon} component
+     */
+    public Icon create(ComponentEventListener<ClickEvent<IronIcon>> listener) {
+        Icon icon = create();
+        icon.addClickListener(listener);
+        return icon;
+    }
+
+    /**
      * Server side component for {@code MapsIcons}
      */
     @HtmlImport(MapsIcons.URL)
     @SuppressWarnings("serial")
-    public final static class Icon extends IronIcon {
+    public final static class Icon extends IronIcon implements ClickNotifier<IronIcon> {
 
          Icon(String icon) {
             super(ICONSET, icon);

@@ -4,20 +4,23 @@
 
     <groupId>com.flowingcode.addons</groupId>
     <artifactId>iron-icons</artifactId>
-    <version>1.0.2-SNAPSHOT</version>
+    <version>2.0.0-SNAPSHOT</version>
     <name>Iron Icons</name>
-    <description>Integration of iron-icons for Vaadin 10</description>
+    <description>Integration of iron-icons for Vaadin 10+</description>
     
     <properties>
-        <vaadin.version>10.0.0</vaadin.version>
+        <vaadin.version>14.0.10</vaadin.version>
+
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-		<project.build.generatedSources>${project.basedir}/src/main/generated</project.build.generatedSources>
-        <iron.icons.version>2.1.1</iron.icons.version>
+        <project.build.generatedSources>${project.basedir}/src/main/generated</project.build.generatedSources>
+        <jetty.version>9.4.15.v20190215</jetty.version>
+        <fontawesome.version>5.11.2</fontawesome.version>
+        <iron.icons.version>3.0.1</iron.icons.version>
         <iron.file.icons.version>2.0.2</iron.file.icons.version>
-        <codegen.demoUrl>https://addonsv10.flowingcode.com/iron-icons/view</codegen.demoUrl>
+        <codegen.demoUrl>https://addonsv14.flowingcode.com/iron-icons/view</codegen.demoUrl>
     </properties>
     
 	<scm>
@@ -39,7 +42,7 @@
             <distribution>repo</distribution>
         </license>
     </licenses>
-        
+
     <dependencyManagement>
         <dependencies>
             <dependency>
@@ -57,67 +60,78 @@
             <id>Vaadin Directory</id>
             <url>https://maven.vaadin.com/vaadin-addons</url>
         </repository>
-        <repository>
-            <id>Vaadin prereleases</id>
-            <url>https://maven.vaadin.com/vaadin-prereleases</url>
-        </repository>
-        <!-- The bintray repository contain webjars immediately after generation. If the webjar is available
-             in Maven central, you do not need this repository 
-        <repository>
-            <id>webjars</id>
-            <url>https://dl.bintray.com/webjars/maven</url>
-        </repository>
-        -->
     </repositories>
 
     <dependencies>
         <dependency>
             <groupId>com.vaadin</groupId>
             <artifactId>vaadin-core</artifactId>
+            <exclusions>
+                <!-- Webjars are only needed when running in Vaadin 13 compatibility mode in V14.
+                     Your add-on can support npm in the same version mode and V13 compatiblity mode at the same time,
+                     or with separate versions. Any V13 version should work with the compatibility mode in V14. -->
+                <exclusion>
+                    <groupId>com.vaadin.webjar</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.webjars.bowergithub.insites</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.webjars.bowergithub.polymer</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.webjars.bowergithub.polymerelements</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.webjars.bowergithub.vaadin</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.webjars.bowergithub.webcomponents</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
-		<dependency>
-		    <groupId>org.webjars.bowergithub.polymerelements</groupId>
-		    <artifactId>iron-icons</artifactId>
-		    <version>${iron.icons.version}</version>
-		</dependency>
-		        
-		<dependency>
-   			<groupId>org.webjars.bowergithub.collaborne</groupId>
-   			<artifactId>iron-file-icons</artifactId>
-	   		<version>${iron.file.icons.version}</version>
-		</dependency>
+
     </dependencies>
 
     <build>
-        <pluginManagement>
-            <plugins>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-release-plugin</artifactId>
-                    <version>2.5.3</version>
-                </plugin>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-release-plugin</artifactId>
+					<version>2.5.3</version>
+				</plugin>
 				<plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-deploy-plugin</artifactId>
                     <version>2.8.2</version>
                 </plugin>
-            </plugins>
-        </pluginManagement>
-        
+			</plugins>
+		</pluginManagement>
+		
         <plugins>
-						
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>license-maven-plugin</artifactId>
-                <version>1.14</version>
-                <configuration>
-                  <licenseName>apache_v2</licenseName>
-				  <addJavaLicenseAfterPackage>false</addJavaLicenseAfterPackage>
-                </configuration>
-            </plugin>
-    
+				
 			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>license-maven-plugin</artifactId>
+				<version>1.14</version>
+				<configuration>
+				  <licenseName>apache_v2</licenseName>
+				  <addJavaLicenseAfterPackage>false</addJavaLicenseAfterPackage>
+				  <extraExtensions>
+					<xslt>xml</xslt>
+				  </extraExtensions>
+				</configuration>
+			</plugin>
+	
+            <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>build-helper-maven-plugin</artifactId>
                 <version>3.0.0</version>
@@ -140,7 +154,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
-                <version>3.0.2</version>
+                <version>3.1.2</version>
                 <configuration>
                     <archive>
                         <index>true</index>
@@ -156,19 +170,34 @@
             </plugin>
 
             <plugin>
+                <groupId>com.vaadin</groupId>
+                <artifactId>vaadin-maven-plugin</artifactId>
+                <version>${vaadin.version}</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>prepare-frontend</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
                 <groupId>org.eclipse.jetty</groupId>
                 <artifactId>jetty-maven-plugin</artifactId>
-                <version>9.3.7.v20160115</version>
+                <version>${jetty.version}</version>
                 <configuration>
-                    <scanIntervalSeconds>-1</scanIntervalSeconds>
-                    <!-- Use test scope because the UI/demo classes are in 
-                        the test package. -->
+                    <scanIntervalSeconds>3</scanIntervalSeconds>
+                    <!-- Use test scope because the UI/demo classes are in
+                            the test package. -->
                     <useTestScope>true</useTestScope>
                     <webAppConfig>
                         <resourceBases>
-                            <resourceBase>src/test/resources/META-INF/resources</resourceBase>
-                        </resourceBases>
+	                        <resourceBase>src/test/resources/META-INF/resources</resourceBase>
+	                    </resourceBases>
                     </webAppConfig>
+                    <supportedPackagings>
+                        <supportedPackaging>jar</supportedPackaging>
+                    </supportedPackagings>
                 </configuration>
             </plugin>
         </plugins>
@@ -230,6 +259,47 @@
                             <additionalparam>-Xdoclint:none</additionalparam>
                         </configuration>
                     </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-jar-plugin</artifactId>
+                        <version>3.1.2</version>
+                        <configuration>
+                            <!-- Generated file that shouldn't be included in add-ons -->
+                            <excludes>
+                                <exclude>META-INF/VAADIN/config/flow-build-info.json</exclude>
+                            </excludes>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+        <!-- Run (demo) in production mode-->
+        <profile>
+            <id>production</id>
+            <properties>
+                <vaadin.productionMode>true</vaadin.productionMode>
+            </properties>
+            <dependencies>
+                <dependency>
+                    <groupId>com.vaadin</groupId>
+                    <artifactId>flow-server-production-mode</artifactId>
+                </dependency>
+            </dependencies>
+            
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>com.vaadin</groupId>
+                        <artifactId>vaadin-maven-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>build-frontend</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
                 </plugins>
             </build>
         </profile>
@@ -261,7 +331,7 @@
 				  	</plugin>
 				  	
 				  	<!-- mkdir src/main/generated -->
-				  	<plugin>
+    				<plugin>	
 					  <artifactId>maven-antrun-plugin</artifactId>
 					  <executions>
 					    <execution>
@@ -299,10 +369,11 @@
 									<argument>-Dcodegen.repository=PolymerElements/iron-icons</argument>
 									<argument>-Dcodegen.tag=v${iron.icons.version}</argument>
 									<argument>-Dcodegen.sources=${project.build.generatedSources}</argument>
-									<argument>-Dcodegen.demoUrl=${codegen.demoUrl}</argument>
+									<argument>-Dcodegen.path=@polymer/iron-icons</argument>
+									<argument>-Dcodegen.demoUrl=${codegen.demoUrl}/%1$s/%2$s</argument>
 								  </arguments>
 								</configuration>
-						    </execution>
+						    </execution>							
 							<execution>
 								<id>iron-file-icons</id>
 								<phase>generate-sources</phase>
@@ -315,7 +386,9 @@
 									<argument>-Dcodegen.repository=Collaborne/iron-file-icons</argument>
 									<argument>-Dcodegen.tag=${iron.file.icons.version}</argument>
 									<argument>-Dcodegen.sources=${project.build.generatedSources}</argument>
-									<argument>-Dcodegen.demoUrl=${codegen.demoUrl}</argument>
+									<argument>-Dcodegen.resources=${project.build.resources[0].directory}</argument>
+									<argument>-Dcodegen.path=./frontend/iron-file-icons</argument>
+									<argument>-Dcodegen.demoUrl=${codegen.demoUrl}/%1$s/%2$s</argument>
 								  </arguments>
 								</configuration>
 						    </execution>

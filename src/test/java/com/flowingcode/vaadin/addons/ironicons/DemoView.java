@@ -33,6 +33,7 @@ import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dependency.HtmlImport;
+import com.vaadin.flow.component.dependency.Uses;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.H4;
@@ -48,7 +49,19 @@ import com.vaadin.flow.router.Route;
 @Route("")
 @SuppressWarnings("serial")
 @HtmlImport("frontend://styles/shared-styles.html")
-public class DemoView extends Div implements IronIconsImports {
+@Uses(com.flowingcode.vaadin.addons.ironicons.AvIcons.Icon.class)
+@Uses(com.flowingcode.vaadin.addons.ironicons.CommunicationIcons.Icon.class)
+@Uses(com.flowingcode.vaadin.addons.ironicons.DeviceIcons.Icon.class)
+@Uses(com.flowingcode.vaadin.addons.ironicons.EditorIcons.Icon.class)
+@Uses(com.flowingcode.vaadin.addons.ironicons.HardwareIcons.Icon.class)
+@Uses(com.flowingcode.vaadin.addons.ironicons.ImageIcons.Icon.class)
+@Uses(com.flowingcode.vaadin.addons.ironicons.IronIcons.Icon.class)
+@Uses(com.flowingcode.vaadin.addons.ironicons.MapsIcons.Icon.class)
+@Uses(com.flowingcode.vaadin.addons.ironicons.NotificationIcons.Icon.class)
+@Uses(com.flowingcode.vaadin.addons.ironicons.PlacesIcons.Icon.class)
+@Uses(com.flowingcode.vaadin.addons.ironicons.SocialIcons.Icon.class)
+@Uses(com.flowingcode.vaadin.addons.ironicons.FileIcons.Icon.class)
+public class DemoView extends Div {
 //this demo uses reflection, for a simple example that does not use reflection see SimpleDemoView 	
 	private static final Map<UI, String> searchString = new WeakHashMap<>();
 	

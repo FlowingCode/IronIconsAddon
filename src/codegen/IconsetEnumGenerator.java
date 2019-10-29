@@ -23,6 +23,7 @@ import static com.github.javaparser.JavaParser.*;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
@@ -33,6 +34,7 @@ import java.io.OutputStream;
 import java.io.PrintStream;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -43,7 +45,15 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import javax.xml.transform.Result;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.stream.StreamResult;
+import javax.xml.transform.stream.StreamSource;
+import net.sf.saxon.TransformerFactoryImpl;
+
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.kohsuke.github.GHContent;
 import org.kohsuke.github.GHException;
@@ -83,7 +93,11 @@ public class IconsetEnumGenerator {
 	
 	private static String demoUrl;
 	
-	private static File directory;
+	private static File sources;
+
+	private static File resources;
+	
+	private static String path;
 	
 	private static File target;
 	
@@ -94,17 +108,28 @@ public class IconsetEnumGenerator {
 		repositoryName = getRequiredProperty("codegen.repository"); //the name of repository to be parsed
 		tagName = getRequiredProperty("codegen.tag"); //the tag in the repository to be parsed
 		target = new File(getRequiredProperty("codegen.target")); //the target directory of this build
-		directory = new File(getRequiredProperty("codegen.sources")); //the location of generated sources
+		sources = getRequiredDirectory("codegen.sources"); //the location of generated sources
+		
+		path = getRequiredProperty("codegen.path").replaceFirst("/$", "");
+		if (path.startsWith("./frontend/")) {
+			resources = getRequiredDirectory("codegen.resources"); //the location of generated resources
+			resources = checkDirectory(new File(resources, "META-INF"));
+			resources = new File(resources, path);
+			resources.mkdirs();
+			checkDirectory(resources);			
+		} else {
+			resources = null;
+		}
+		
 		demoUrl = System.getProperty("codegen.demoUrl"); //the URL prefix to the single icon view demo
 		
 		license = getLicenseInformation();
 		
 		System.out.println("Using "+repositoryName+" version "+tagName);
 		
-		System.out.println("Output directory is "+Paths.get(directory.getAbsolutePath()).normalize());
-		if (!directory.exists()) {
-			System.err.println("Output directory does not exist");
-			System.exit(1);
+		System.out.println("Output directory is "+Paths.get(sources.getAbsolutePath()).normalize());
+		if (resources!=null) {
+			System.out.println("Output resources directory is "+Paths.get(resources.getAbsolutePath()).normalize());
 		}
 		
 		try {
@@ -119,6 +144,19 @@ public class IconsetEnumGenerator {
 		return Optional.ofNullable(System.getProperty(name)).orElseThrow(()->new NoSuchElementException("Missing system property -D"+name));
 	}
 	
+	private static File getRequiredDirectory(String name) {
+		File directory = new File(getRequiredProperty(name));
+		return checkDirectory(directory);
+	}
+	
+	private static File checkDirectory(File directory) {
+		if (!directory.exists()&&!directory.mkdir()) {
+			System.err.println("Output directory "+directory+" does not exist and cannot be created");
+			System.exit(1);
+		}
+		return directory;
+	}
+		
 	private static void execute()  throws IOException {	
 		//Prefer connecting with authentication since the anonymous quota may be exhausted after a few builds 
 		GitHub github;
@@ -130,33 +168,36 @@ public class IconsetEnumGenerator {
 		
 		GHRepository repo = github.getRepository(repositoryName);
 		
-		List<String> types = repo.getDirectoryContent("/", tagName).stream()
-			.filter(e->/*e.getPath().endsWith("-icons.js")||*/e.getPath().endsWith("-icons.html"))
-			.map(file -> {
-				System.out.println("Generating constants for "+file.getName());
-				String name = file.getName().replaceAll("-icons\\.\\w+$", "");
+		repo.getDirectoryContent("/", tagName).stream()
+			.filter(e->e.getPath().endsWith("-icons.js")||e.getPath().endsWith("-icons.html"))
+			.forEach(file -> {
+								
 				try (InputStream in = file.read()) {
 					String content = new BufferedReader(new InputStreamReader(in)).lines().collect(Collectors.joining("\n"));
-					return createCompilationUnit(name, content);
+					createCompilationUnit(file.getName(), content);
 				} catch (IOException e) {
 					throw new RuntimeException(e);
 				}
-		}).collect(Collectors.toList());
+		});
 		
-		appendToTypesList(types);
-		readTypesList(types);
-		
-		generateIronIconsTypes(types);
-		generateIronIconsImports(types);
 	}
 	
-	private static String createCompilationUnit(String cuName, String content) throws FileNotFoundException {
+	private static String createCompilationUnit(String fileName, String content) throws IOException {
 		Matcher iconsetMatcher = Pattern.compile("<iron-iconset-svg.+?name=\"(.+?)\"").matcher(content);
 		if (!iconsetMatcher.find()) {
 			throw new IllegalArgumentException("iron-iconset-svg not found");
 		}
 		String iconset = iconsetMatcher.group(1);
 		
+		if (resources!=null) {
+			System.out.println("Modularize "+fileName);
+			File resourceFile = new File(resources, fileName);
+			FileUtils.writeStringToFile(resourceFile, content.substring(iconsetMatcher.start()), "UTF-8");
+			fileName = modularize(resourceFile);
+		}
+		
+		System.out.println("Generating constants for "+fileName);
+				
 		List<String> icons = new ArrayList<>();
 		Matcher matcher = Pattern.compile("<g id=\"([\\w-]+)\">").matcher(content);
 		while (matcher.find()) {
@@ -167,6 +208,7 @@ public class IconsetEnumGenerator {
 		cu.setPackageDeclaration(PACKAGE_NAME);
 		cu.addImport("com.vaadin.flow.component.icon.IronIcon");
 		
+		String cuName = fileName.replaceAll("-icons\\.\\w+$", "");
 		EnumDeclaration decl = cu.addEnum(StringUtils.capitalize(cuName)+"Icons");
 		decl.addImplementedType("IronIconEnum");
 		
@@ -191,7 +233,7 @@ public class IconsetEnumGenerator {
 			
 			String seeExample;
 			if (demoUrl!=null) {
-				seeExample = "See <a href='"+demoUrl+"/%1$s/%2$s'>example</a>";
+				seeExample = "See <a href='"+demoUrl+"'>example</a>";
 			} else {
 				seeExample = "";
 			}
@@ -200,11 +242,8 @@ public class IconsetEnumGenerator {
 			    .setJavadocComment(new JavadocComment(String.format("The %1$s:%2$s icon."+seeExample, iconset, icon)));
 		}
 
-		String componentName = repositoryName.split("/",2)[1];
-		String url = "frontend://bower_components/"+componentName+"/"+cuName+"-icons.html"; 
-		decl.addFieldWithInitializer("String", "URL", new StringLiteralExpr(url), PUBLIC, STATIC, FINAL)
-			.setJavadocComment(new JavadocComment(String.format("The HTML resource that contains the %s iconset", iconset)));
-
+		String componentName = repositoryName.split("/",2)[1];		 
+		
 		decl.addFieldWithInitializer("String", "ICONSET", new StringLiteralExpr(iconset), PUBLIC, STATIC, FINAL)
 			.setJavadocComment(new JavadocComment(String.format("The Iconset name, i.e. {@code \"%s\"}.\"",iconset)));
 
@@ -236,16 +275,27 @@ public class IconsetEnumGenerator {
 		create.getBody().get().addStatement(new ReturnStmt("icon"));
 
 		//create a server side component for the iconset
-		cu.addImport("com.vaadin.flow.component.dependency.HtmlImport");
+		cu.addImport("com.vaadin.flow.component.dependency.JsModule");		
 		cu.addImport("com.vaadin.flow.component.ClickNotifier");
 		
 		ClassOrInterfaceDeclaration icon = new ClassOrInterfaceDeclaration();
 		icon.setName("Icon");
-		icon.addModifier(PUBLIC, FINAL, STATIC);
+		icon.addModifier(PUBLIC, STATIC, FINAL);
 		icon.addExtendedType("IronIcon");
 		icon.addImplementedType("ClickNotifier<IronIcon>");
 		icon.setJavadocComment(new JavadocComment(String.format("Server side component for {@code %s}", decl.getName())));
-		icon.addSingleMemberAnnotation("HtmlImport", new NameExpr(decl.getName()+".URL"));
+		
+		
+		if (path.startsWith("./frontend/")) {
+			path = path.replaceFirst("./frontend/", "./");
+		} else {
+			cu.addImport("com.vaadin.flow.component.dependency.NpmPackage");
+			icon.addAndGetAnnotation("NpmPackage")
+				.addPair("value", new StringLiteralExpr(path))
+				.addPair("version",new StringLiteralExpr(tagName));
+		}
+				
+		icon.addSingleMemberAnnotation("JsModule", new StringLiteralExpr(path+"/"+fileName));
 		icon.addSingleMemberAnnotation("SuppressWarnings", new StringLiteralExpr("serial"));
 		decl.addMember(icon);
 		
@@ -258,7 +308,7 @@ public class IconsetEnumGenerator {
 	}
 	
 	private static void save(CompilationUnit cu) throws FileNotFoundException {
-		File pkgDirectory = new File(directory, PACKAGE_NAME.replace('.', '/'));
+		File pkgDirectory = new File(sources, PACKAGE_NAME.replace('.', '/'));
 		pkgDirectory.mkdirs();
 		
 		PrintStream ps = new PrintStream(new FileOutputStream(new File(pkgDirectory,cu.getType(0).getName()+".java")));
@@ -267,69 +317,25 @@ public class IconsetEnumGenerator {
 		ps.close();
 	}
 	
-	private static void appendToTypesList(List<String> types) throws FileNotFoundException {
-		File file = new File(target,"typelist");
-		try (PrintStream ps = new PrintStream(new FileOutputStream(file,true))) {
-			types.forEach(ps::println);
-		}
-	}
-	
-	private static void readTypesList(List<String> types) throws IOException {
-		types.clear();
-		File file = new File(target,"typelist");
-		try (BufferedReader in = new BufferedReader(new FileReader(file))) {
-			in.lines().forEach(types::add);
-		}
-	}
-		 
-	private static void generateIronIconsTypes(List<String> types) throws IOException {
-		CompilationUnit cu = new CompilationUnit();
-		cu.setPackageDeclaration(PACKAGE_NAME);
-
-		cu.addImport("java.util.ArrayList");
-		cu.addImport("java.util.Collections");
-		cu.addImport("java.util.List");
-
-		ClassOrInterfaceDeclaration decl = cu.addClass("IronIconsTypes", ABSTRACT);
-		decl.setJavadocComment(new JavadocComment(
-				"Generated file that contains a list of all the enumeration types defined in the addon.\n"+
-				"@author Javier Godoy / Flowing Code\n"+
-				"@see IronIconsReflect#getIconTypes()"));
-					
-		String listType = "List<Class<? extends IronIconEnum>>";
-		decl.addFieldWithInitializer(listType, "types", parseExpression("new ArrayList<>()"), PRIVATE, STATIC, FINAL);
-		decl.addConstructor(PRIVATE);
-		BlockStmt initializer = decl.addStaticInitializer();
-		types.forEach(type->initializer.addStatement(new MethodCallExpr("types.add", new ClassExpr(parseType(type)))));
-
-		MethodDeclaration getIconTypes = decl.addMethod("getIconTypes", PUBLIC, STATIC);
-		getIconTypes.setType(listType);
-		getIconTypes.getBody().get().addStatement(new ReturnStmt("Collections.unmodifiableList(types)"));
-		
-		save(cu);
-	}
-
-	private static void generateIronIconsImports(List<String> types)  throws IOException {
-		CompilationUnit cu = new CompilationUnit();
-		cu.setPackageDeclaration(PACKAGE_NAME);
-		
-		cu.addImport("com.vaadin.flow.component.dependency.HtmlImport");
-		
-		ClassOrInterfaceDeclaration decl = cu.addInterface("IronIconsImports");
-		decl.setJavadocComment(new JavadocComment(
-				Stream.of(
-					String.format("Contains {@link HtmlImport}s for all the iconsets defined in the addon"),
-					"@author Javier Godoy / Flowing Code"
-				).collect(Collectors.joining("\n"))
-			));
-		
-		types.forEach(type->decl.addSingleMemberAnnotation("HtmlImport", new NameExpr(type+".URL")));
-		
-		save(cu);
-	}
-
 	private static BlockComment getLicenseInformation() throws IOException {
 		CompilationUnit cu = JavaParser.parse(new File("TemplateLicense.java"));
 		return (BlockComment)cu.getOrphanComments().get(0);
+	}
+	
+	private static String modularize(File file) throws IOException {
+		File dst = new File(file.getParent(), FilenameUtils.removeExtension(file.getName())+".js");		
+		try (
+			InputStream in = new FileInputStream(file);
+			InputStream xslt = new FileInputStream("modularize.xslt");
+			OutputStream out = new FileOutputStream(dst)
+		) {
+			Transformer t = new TransformerFactoryImpl().newTransformer(new StreamSource(xslt));
+			Result outputTarget = new StreamResult(out);
+			t.transform(new StreamSource(in), outputTarget);
+		} catch (TransformerException e) {
+			throw new IOException(e);
+		}
+		file.delete();	
+		return dst.getName();
 	}
 }

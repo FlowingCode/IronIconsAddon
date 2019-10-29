@@ -21,6 +21,8 @@ package com.flowingcode.vaadin.addons.ironicons;
 
 
 import java.lang.reflect.UndeclaredThrowableException;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -29,12 +31,28 @@ import java.util.List;
  */
 public abstract class IronIconsReflect {
 	
+	private static final List<Class<? extends IronIconEnum>> types = new ArrayList<>();
+	
 	private IronIconsReflect() {}
 		
+	static {
+        types.add(com.flowingcode.vaadin.addons.ironicons.AvIcons.class);
+        types.add(com.flowingcode.vaadin.addons.ironicons.CommunicationIcons.class);
+        types.add(com.flowingcode.vaadin.addons.ironicons.DeviceIcons.class);
+        types.add(com.flowingcode.vaadin.addons.ironicons.EditorIcons.class);
+        types.add(com.flowingcode.vaadin.addons.ironicons.HardwareIcons.class);
+        types.add(com.flowingcode.vaadin.addons.ironicons.ImageIcons.class);
+        types.add(com.flowingcode.vaadin.addons.ironicons.IronIcons.class);
+        types.add(com.flowingcode.vaadin.addons.ironicons.MapsIcons.class);
+        types.add(com.flowingcode.vaadin.addons.ironicons.NotificationIcons.class);
+        types.add(com.flowingcode.vaadin.addons.ironicons.PlacesIcons.class);
+        types.add(com.flowingcode.vaadin.addons.ironicons.SocialIcons.class);
+        types.add(com.flowingcode.vaadin.addons.ironicons.FileIcons.class);
+	}
+
 	/**Return a list of all the {@code IronIconEnum} types defined in the addon.*/
 	public static List<Class<? extends IronIconEnum>> getIconTypes() {
-		//IronIconsTypes is generated
-		return IronIconsTypes.getIconTypes();
+		return Collections.unmodifiableList(types);
 	}
 		
 	/**Return the URL of the The HTML resource that contains the iconset for an {@code IronIconEnum} type.*/

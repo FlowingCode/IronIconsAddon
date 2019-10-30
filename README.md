@@ -1,4 +1,4 @@
-[![Build Status](https://jenkins.flowingcode.com/job/IronIcons-addon/badge/icon)](https://jenkins.flowingcode.com/job/IronIcons-addon)
+[![Build Status](https://jenkins.flowingcode.com/job/IronIcons-14-addon/badge/icon)](https://jenkins.flowingcode.com/job/IronIcons-14-addon)
 
 # Iron Icons Addon
 
@@ -6,7 +6,7 @@ Vaadin 10+ constants for https://github.com/PolymerElements/iron-icons
 
 ## Online demo
 
-[Online demo here](http://addonsv10.flowingcode.com/iron-icons)
+[Online demo here](http://addonsv14.flowingcode.com/iron-icons)
 
 ## Building and running demo
 
@@ -17,8 +17,9 @@ To see the demo, navigate to http://localhost:8080/
 
 ## Release notes
 
-- **Version 1.0.0** Initial Version
+- **Version 1.0.0** Initial Version for Vaadin 10+
 - **Version 1.0.1** Add overload of `create` method that receives a click listener.
+- **Version 2.0.0** Initial Version for Vaadin 14 (npm mode)
 
 ## Issue tracking
 

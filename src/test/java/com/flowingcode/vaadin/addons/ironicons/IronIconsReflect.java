@@ -29,7 +29,7 @@ import java.util.List;
  * Reflection utilities for {@link IronIconEnum}.
  * @author Javier Godoy / Flowing Code
  */
-public abstract class IronIconsReflect {
+public final class IronIconsReflect {
 	
 	private static final List<Class<? extends IronIconEnum>> types = new ArrayList<>();
 	
@@ -55,11 +55,6 @@ public abstract class IronIconsReflect {
 		return Collections.unmodifiableList(types);
 	}
 		
-	/**Return the URL of the The HTML resource that contains the iconset for an {@code IronIconEnum} type.*/
-	public static String getUrl(Class<? extends IronIconEnum> type) {
-		return getStaticField("URL", type); 
-	}
-	
 	/**Return the iconset name of the given {@code IronIconEnum} type.*/
 	public static String getIconset(Class<? extends IronIconEnum> type) {
 		return getStaticField("ICONSET", type); 
@@ -70,7 +65,7 @@ public abstract class IronIconsReflect {
 			return (String) type.getField(fieldName).get(null);
 		} catch (RuntimeException e) {
 			throw e;
-		} catch (Exception e) {
+		} catch (IllegalAccessException | NoSuchFieldException e) {
 			throw new UndeclaredThrowableException(e);
 		}
 	}

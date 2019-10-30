@@ -32,13 +32,16 @@ import org.apache.commons.lang3.tuple.Pair;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.dependency.HtmlImport;
+import com.vaadin.flow.component.dependency.StyleSheet;
 import com.vaadin.flow.component.dependency.Uses;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.H4;
 import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.orderedlayout.FlexLayout;
+import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.value.ValueChangeMode;
 import com.vaadin.flow.router.Route;
@@ -48,7 +51,6 @@ import com.vaadin.flow.router.Route;
  */
 @Route("")
 @SuppressWarnings("serial")
-@HtmlImport("frontend://styles/shared-styles.html")
 @Uses(com.flowingcode.vaadin.addons.ironicons.AvIcons.Icon.class)
 @Uses(com.flowingcode.vaadin.addons.ironicons.CommunicationIcons.Icon.class)
 @Uses(com.flowingcode.vaadin.addons.ironicons.DeviceIcons.Icon.class)
@@ -61,6 +63,8 @@ import com.vaadin.flow.router.Route;
 @Uses(com.flowingcode.vaadin.addons.ironicons.PlacesIcons.Icon.class)
 @Uses(com.flowingcode.vaadin.addons.ironicons.SocialIcons.Icon.class)
 @Uses(com.flowingcode.vaadin.addons.ironicons.FileIcons.Icon.class)
+@StyleSheet("./styles/shared-styles.css")
+@CssImport(value = "./styles/vaadin-button.css", themeFor = "vaadin-button")
 public class DemoView extends Div {
 //this demo uses reflection, for a simple example that does not use reflection see SimpleDemoView 	
 	private static final Map<UI, String> searchString = new WeakHashMap<>();
@@ -90,6 +94,7 @@ public class DemoView extends Div {
 			for (IronIconEnum e : type.getEnumConstants()) {
 				String name = ((Enum<?>)e).name().toLowerCase().replace('_', '-').replaceFirst("^-", "");				
 				Button btn = new Button(name, e.create());
+				btn.setClassName("text-align-left");
 				btn.addClickListener(ev->showDetails(e));
 				layout.add(btn);
 				layout.setFlexGrow(0, btn);
@@ -106,12 +111,17 @@ public class DemoView extends Div {
 	
 	private void showDetails(IronIconEnum e) {
 		DemoViewSingle view = new DemoViewSingle();
-		Button close = new Button(IronIcons.CLOSE.create());
-		close.addClassName("close-button");
+		Button closeButton = new Button(IronIcons.CLOSE.create());
+		closeButton.addClassName("close-button");
+		HorizontalLayout top = new HorizontalLayout(closeButton);
+		
 		view.setParameter(null, e.getIconName().replace(':', '/'));
-		Dialog dlg = new Dialog(close, view);
+		Div div = new Div(top, view);
+		div.addClassName("details-dialog");
+		Dialog dlg = new Dialog(div);		
 		dlg.open();
-		close.addClickListener(ev->dlg.close());
+		dlg.setWidth("600px");
+		closeButton.addClickListener(ev->dlg.close());
 	}
 	
 	private static Stream<Class<? extends IronIconEnum>> getIconTypes() {

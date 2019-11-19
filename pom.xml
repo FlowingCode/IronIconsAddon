@@ -4,7 +4,7 @@
 
     <groupId>com.flowingcode.addons</groupId>
     <artifactId>iron-icons</artifactId>
-    <version>2.0.1-SNAPSHOT</version>
+    <version>2.0.1</version>
     <name>Iron Icons</name>
     <description>Integration of iron-icons for Vaadin 10+</description>
     
@@ -27,7 +27,7 @@
         <url>https://github.com/FlowingCode/IronIconsAddon</url>
         <connection>scm:git:git://github.com/FlowingCode/IronIconsAddon.git</connection>
         <developerConnection>scm:git:ssh://git@github.com:/FlowingCode/IronIconsAddon.git</developerConnection>
-        <tag>HEAD</tag>
+        <tag>iron-icons-2.0.1</tag>
     </scm>
 	
     <organization>

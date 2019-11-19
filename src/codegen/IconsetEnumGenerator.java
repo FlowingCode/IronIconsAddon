@@ -38,6 +38,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.regex.Matcher;
@@ -207,6 +208,7 @@ public class IconsetEnumGenerator {
 		CompilationUnit cu = new CompilationUnit();
 		cu.setPackageDeclaration(PACKAGE_NAME);
 		cu.addImport("com.vaadin.flow.component.icon.IronIcon");
+		cu.addImport("java.util.Locale");
 		
 		String cuName = fileName.replaceAll("-icons\\.\\w+$", "");
 		EnumDeclaration decl = cu.addEnum(StringUtils.capitalize(cuName)+"Icons");
@@ -225,7 +227,7 @@ public class IconsetEnumGenerator {
 						
 		boolean hasUnderscorePrefix = false;
 		for (String icon : icons) {
-			String name = icon.toUpperCase().replace("-", "_");
+			String name = icon.toUpperCase(Locale.ENGLISH).replace("-", "_");
 			if (!Character.isJavaIdentifierStart(name.charAt(0)) || name.equals("ICONSET") || name.equals("URL")) {
 				name = "_"+name;
 				hasUnderscorePrefix = true;
@@ -255,7 +257,7 @@ public class IconsetEnumGenerator {
 		String removeUnderscorePrefix = hasUnderscorePrefix?".replaceFirst(\"^-\", \"\")":"";
 		MethodDeclaration getIconPart = decl.addMethod("getIconPart", PRIVATE);
 		getIconPart.setType("String");
-		getIconPart.getBody().get().addStatement(new ReturnStmt("this.name().toLowerCase().replace('_', '-')"+removeUnderscorePrefix));
+		getIconPart.getBody().get().addStatement(new ReturnStmt("this.name().toLowerCase(Locale.ENGLISH).replace('_', '-')"+removeUnderscorePrefix));
 				
 		MethodDeclaration create = decl.addMethod("create", PUBLIC);
 		create.setJavadocComment(new JavadocComment("Create a new {@link IronIcon} instance with the icon determined by the name.\n@return a new instance of {@link IronIcon} component"));

@@ -21,6 +21,7 @@
 package com.flowingcode.vaadin.addons.ironicons;
 
 import com.vaadin.flow.component.icon.IronIcon;
+import java.util.Locale;
 import com.vaadin.flow.component.ClickEvent;
 import com.vaadin.flow.component.ComponentEventListener;
 import com.vaadin.flow.component.dependency.JsModule;
@@ -172,7 +173,7 @@ public enum SocialIcons implements IronIconEnum {
     }
 
     private String getIconPart() {
-        return this.name().toLowerCase().replace('_', '-');
+        return this.name().toLowerCase(Locale.ENGLISH).replace('_', '-');
     }
 
     /**

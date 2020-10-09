@@ -65,7 +65,7 @@ add(new Button("SAVE", IronIcons.SAVE.create()));
 
 In this latter case, you'll need to import the corresponding iconset:
 ```
-@HtmlImport(IronIcons.URL)
+@Uses(IronIcons.Icon.class)
 ```
 
 ## Code generation

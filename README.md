@@ -4,6 +4,10 @@
 
 Vaadin 10+ constants for https://github.com/PolymerElements/iron-icons
 
+## Download release
+
+[Available in Vaadin Directory](https://vaadin.com/directory/component/iron-icons)
+
 ## Online demo
 
 [Online demo here](http://addonsv14.flowingcode.com/iron-icons)

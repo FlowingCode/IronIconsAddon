@@ -1,5 +1,6 @@
 package com.flowingcode.vaadin.addons.ironicons;
 
+import com.flowingcode.vaadin.addons.DemoLayout;
 import com.vaadin.flow.component.checkbox.Checkbox;
 import com.vaadin.flow.component.html.IFrame;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -10,7 +11,7 @@ import com.vaadin.flow.component.tabs.Tabs;
 import com.vaadin.flow.router.Route;
 
 @SuppressWarnings("serial")
-@Route("ironicons")
+@Route(value = "ironicons", layout = DemoLayout.class)
 public class IroniconsDemoView extends VerticalLayout {
 	
 	private static final String GALLERY_DEMO = "Icons Gallery";

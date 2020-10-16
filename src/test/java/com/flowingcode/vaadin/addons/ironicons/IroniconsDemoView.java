@@ -2,8 +2,11 @@ package com.flowingcode.vaadin.addons.ironicons;
 
 import com.flowingcode.vaadin.addons.DemoLayout;
 import com.vaadin.flow.component.checkbox.Checkbox;
+import com.vaadin.flow.component.dependency.StyleSheet;
 import com.vaadin.flow.component.html.IFrame;
+import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.component.orderedlayout.FlexComponent.JustifyContentMode;
 import com.vaadin.flow.component.splitlayout.SplitLayout;
 import com.vaadin.flow.component.splitlayout.SplitLayout.Orientation;
 import com.vaadin.flow.component.tabs.Tab;
@@ -11,6 +14,7 @@ import com.vaadin.flow.component.tabs.Tabs;
 import com.vaadin.flow.router.Route;
 
 @SuppressWarnings("serial")
+@StyleSheet("context://frontend/styles/demo-styles.css")
 @Route(value = "ironicons", layout = DemoLayout.class)
 public class IroniconsDemoView extends VerticalLayout {
 	
@@ -28,8 +32,30 @@ public class IroniconsDemoView extends VerticalLayout {
 		iframe.getElement().setAttribute("frameborder", "0");
 		iframe.setSizeFull();
 
+		Tabs tabs = new Tabs();
+		Tab demo1 = new Tab(GALLERY_DEMO);
+		Tab demo2 = new Tab(SIMPLE_DEMO);
+		Tab demo3 = new Tab(TEMPLATERENDERER_DEMO);
+		tabs.setWidthFull();
+		tabs.add(demo1, demo2, demo3);
+		tabs.setSelectedTab(demo1);
+
+		Checkbox orientationCB = new Checkbox("Toggle Orientation");
+		orientationCB.setValue(true);
+		orientationCB.addClassName("smallcheckbox");
+		orientationCB.addValueChangeListener(cb -> {
+			if (cb.getValue()) {
+				layout.setOrientation(Orientation.HORIZONTAL);
+			} else {
+				layout.setOrientation(Orientation.VERTICAL);
+			}
+			layout.setSplitterPosition(50);
+			layout.getPrimaryComponent().getElement().setAttribute("style", "width: 100%; height: 100%");
+			iframe.setSizeFull();
+		});
 		Checkbox codeCB = new Checkbox("Show Source Code");
-		codeCB.setEnabled(false);
+		codeCB.setValue(true);
+		codeCB.addClassName("smallcheckbox");
 		codeCB.addValueChangeListener(cb -> {
 			if (cb.getValue()) {
 				layout.setSplitterPosition(50);
@@ -37,16 +63,12 @@ public class IroniconsDemoView extends VerticalLayout {
 				layout.setSplitterPosition(100);
 			}
 		});
+		HorizontalLayout footer = new HorizontalLayout();
+		footer.setWidthFull();
+		footer.setJustifyContentMode(JustifyContentMode.END);
+		footer.add(codeCB, orientationCB);
 
-		Tabs tabs = new Tabs();
-		Tab demo1 = new Tab(GALLERY_DEMO);
-		Tab demo2 = new Tab(SIMPLE_DEMO);
-		Tab demo3 = new Tab(TEMPLATERENDERER_DEMO);
-		tabs.setWidthFull();
-		tabs.add(demo1, demo2, demo3, codeCB);
 		add(tabs, new IconsGalleryView());
-		tabs.setSelectedTab(demo1);
-
 		setSizeFull();
 
 		tabs.addSelectedChangeListener(e -> {
@@ -54,29 +76,21 @@ public class IroniconsDemoView extends VerticalLayout {
 			layout.removeAll();
 			switch (e.getSelectedTab().getLabel()) {
 			case GALLERY_DEMO:
-				codeCB.setEnabled(false);
-				codeCB.setValue(false);
 				add(tabs, new IconsGalleryView());
 				break;
 			case SIMPLE_DEMO:
-				codeCB.setEnabled(true);
-				codeCB.setValue(true);
 				iframe.getElement().setAttribute("srcdoc", getSrcdoc(SIMPLE_SOURCE));
 				layout.addToPrimary(new SimpleDemoView());
 				layout.addToSecondary(iframe);
-				add(tabs, layout);
+				add(tabs, layout, footer);
 				break;
 			case TEMPLATERENDERER_DEMO:
-				codeCB.setEnabled(true);
-				codeCB.setValue(true);
 				iframe.getElement().setAttribute("srcdoc", getSrcdoc(TEMPLATERENDERER_SOURCE));
 				layout.addToPrimary(new TemplateRendererDemo());
 				layout.addToSecondary(iframe);
-				add(tabs, layout);
+				add(tabs, layout, footer);
 				break;
 			default:
-				codeCB.setEnabled(false);
-				codeCB.setValue(false);
 				add(tabs, new IconsGalleryView());
 				break;
 			}

@@ -14,7 +14,7 @@ import com.vaadin.flow.component.tabs.Tabs;
 import com.vaadin.flow.router.Route;
 
 @SuppressWarnings("serial")
-@StyleSheet("context://frontend/styles/demo-styles.css")
+@StyleSheet("context://frontend/styles/iron-icons/demo-styles.css")
 @Route(value = "ironicons", layout = DemoLayout.class)
 public class IroniconsDemoView extends VerticalLayout {
 	

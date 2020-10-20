@@ -39,7 +39,7 @@ import com.vaadin.flow.router.WildcardParameter;
  */
 @Route("view")
 @SuppressWarnings("serial")
-@StyleSheet("./styles/shared-styles.css")
+@StyleSheet("context://frontend/styles/iron-icons/demo-styles.css")
 public class DemoViewSingle extends Div implements HasUrlParameter<String>  {
 		
 	IronIconEnum icon;

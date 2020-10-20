@@ -36,7 +36,7 @@ import org.apache.commons.lang3.tuple.Pair;
 @Uses(com.flowingcode.vaadin.addons.ironicons.PlacesIcons.Icon.class)
 @Uses(com.flowingcode.vaadin.addons.ironicons.SocialIcons.Icon.class)
 @Uses(com.flowingcode.vaadin.addons.ironicons.FileIcons.Icon.class)
-@StyleSheet("./styles/shared-styles.css")
+@StyleSheet("context://frontend/styles/iron-icons/demo-styles.css")
 @SuppressWarnings("serial")
 @CssImport(value = "./styles/vaadin-button.css", themeFor = "vaadin-button")
 public class IconsGalleryView extends Div {

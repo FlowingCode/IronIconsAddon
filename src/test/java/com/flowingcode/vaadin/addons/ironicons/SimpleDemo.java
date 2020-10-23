@@ -29,9 +29,9 @@ import com.vaadin.flow.router.Route;
  */
 @SuppressWarnings("serial")
 @Route("simple")
-public class SimpleDemoView extends VerticalLayout {
+public class SimpleDemo extends VerticalLayout {
 
-	public SimpleDemoView() {
+	public SimpleDemo() {
 		//add a button with an iron icon
 		add(new Button("Save", IronIcons.SAVE.create(), ev->{
 			Notification.show("Saved!");

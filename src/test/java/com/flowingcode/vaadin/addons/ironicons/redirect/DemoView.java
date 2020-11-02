@@ -17,12 +17,14 @@
  * limitations under the License.
  * #L%
  */
-package com.flowingcode.vaadin.addons.ironicons;
+package com.flowingcode.vaadin.addons.ironicons.redirect;
 
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.BeforeEnterEvent;
 import com.vaadin.flow.router.BeforeEnterObserver;
 import com.vaadin.flow.router.Route;
+
+import com.flowingcode.vaadin.addons.ironicons.IroniconsDemoView;
 
 /**
  * @author Javier Godoy / Flowing Code

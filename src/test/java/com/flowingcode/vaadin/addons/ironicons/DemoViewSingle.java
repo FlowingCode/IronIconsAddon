@@ -37,7 +37,7 @@ import com.vaadin.flow.router.WildcardParameter;
 /**
  * @author Javier Godoy / Flowing Code
  */
-@Route(value = "ironicons/view", layout = DemoLayout.class)
+@Route(value = "iron-icons/view", layout = DemoLayout.class)
 @SuppressWarnings("serial")
 @StyleSheet("context://frontend/styles/iron-icons/demo-styles.css")
 public class DemoViewSingle extends Div implements HasUrlParameter<String>  {

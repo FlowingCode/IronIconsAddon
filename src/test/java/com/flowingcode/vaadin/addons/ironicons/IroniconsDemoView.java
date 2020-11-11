@@ -20,6 +20,7 @@
 package com.flowingcode.vaadin.addons.ironicons;
 
 import com.flowingcode.vaadin.addons.DemoLayout;
+import com.flowingcode.vaadin.addons.GithubLink;
 import com.flowingcode.vaadin.addons.demo.impl.TabbedDemoImpl;
 import com.vaadin.flow.component.dependency.StyleSheet;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -28,6 +29,7 @@ import com.vaadin.flow.router.Route;
 @SuppressWarnings("serial")
 @StyleSheet("context://frontend/styles/iron-icons/demo-styles.css")
 @Route(value = "iron-icons", layout = DemoLayout.class)
+@GithubLink("https://github.com/FlowingCode/IronIconsAddon")
 public class IroniconsDemoView extends VerticalLayout {
 	
 	private static final String GALLERY_DEMO = "Icons Gallery";

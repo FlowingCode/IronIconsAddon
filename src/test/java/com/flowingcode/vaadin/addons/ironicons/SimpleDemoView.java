@@ -20,6 +20,7 @@
 package com.flowingcode.vaadin.addons.ironicons;
 
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.Route;
 
@@ -31,10 +32,10 @@ import com.vaadin.flow.router.Route;
 public class SimpleDemoView extends VerticalLayout {
 
 	public SimpleDemoView() {
-		
 		//add a button with an iron icon
-		add(new Button("Save", IronIcons.SAVE.create()));
-				
+		add(new Button("Save", IronIcons.SAVE.create(), ev->{
+			Notification.show("Saved!");
+		}));
 	}
 
 }

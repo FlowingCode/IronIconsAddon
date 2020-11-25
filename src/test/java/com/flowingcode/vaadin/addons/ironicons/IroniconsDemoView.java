@@ -27,7 +27,7 @@ import com.vaadin.flow.router.Route;
 
 @SuppressWarnings("serial")
 @StyleSheet("context://frontend/styles/iron-icons/demo-styles.css")
-@Route(value = "ironicons", layout = DemoLayout.class)
+@Route(value = "iron-icons", layout = DemoLayout.class)
 public class IroniconsDemoView extends VerticalLayout {
 	
 	private static final String GALLERY_DEMO = "Icons Gallery";

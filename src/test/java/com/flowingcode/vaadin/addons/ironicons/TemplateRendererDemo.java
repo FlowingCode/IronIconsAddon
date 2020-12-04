@@ -21,6 +21,7 @@ package com.flowingcode.vaadin.addons.ironicons;
 
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.data.provider.ListDataProvider;
 import com.vaadin.flow.data.renderer.TemplateRenderer;
 import java.util.ArrayList;
 import java.util.List;
@@ -37,7 +38,7 @@ public class TemplateRendererDemo extends VerticalLayout {
 		personList.add(new Person(104, "Aaron Atkinson", 18));
 		personList.add(new Person(105, "Jack Woodward", 28));
 		Grid<Person> grid = new Grid<>();
-		grid.setItems(personList);
+		grid.setDataProvider(new ListDataProvider<>(personList));
 
 		grid.addColumn(TemplateRenderer.<Person>of(
 				"<iron-icon icon='" + IronIcons.ADD_ALERT.getIconName() + "'></iron-icon>[[item.id]]")

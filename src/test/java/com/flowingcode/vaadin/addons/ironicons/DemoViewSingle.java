@@ -33,10 +33,12 @@ import com.vaadin.flow.router.BeforeEvent;
 import com.vaadin.flow.router.HasUrlParameter;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.router.WildcardParameter;
+import org.junit.Ignore;
 
 /**
  * @author Javier Godoy / Flowing Code
  */
+@Ignore
 @Route(value = "iron-icons/view", layout = DemoLayout.class)
 @SuppressWarnings("serial")
 @StyleSheet("context://frontend/styles/iron-icons/demo-styles.css")

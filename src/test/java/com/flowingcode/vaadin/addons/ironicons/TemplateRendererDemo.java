@@ -19,14 +19,20 @@
  */
 package com.flowingcode.vaadin.addons.ironicons;
 
+import java.util.ArrayList;
+import java.util.List;
+import com.flowingcode.vaadin.addons.demo.DemoSource;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.data.provider.ListDataProvider;
 import com.vaadin.flow.data.renderer.TemplateRenderer;
-import java.util.ArrayList;
-import java.util.List;
+import com.vaadin.flow.router.PageTitle;
+import com.vaadin.flow.router.Route;
 
 @SuppressWarnings("serial")
+@PageTitle("Template Renderer")
+@DemoSource
+@Route(value = "iron-icons/template-renderer", layout = IroniconsDemoView.class)
 public class TemplateRendererDemo extends VerticalLayout {
 
 	public TemplateRendererDemo() {

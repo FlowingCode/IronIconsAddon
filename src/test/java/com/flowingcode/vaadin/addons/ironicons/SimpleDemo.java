@@ -19,15 +19,20 @@
  */
 package com.flowingcode.vaadin.addons.ironicons;
 
+import com.flowingcode.vaadin.addons.demo.DemoSource;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 
 /**
  * @author Javier Godoy / Flowing Code
  */
 @SuppressWarnings("serial")
+@PageTitle("Simple Demo")
+@DemoSource
+@Route(value = "iron-icons/simple-demo", layout = IroniconsDemoView.class)
 public class SimpleDemo extends VerticalLayout {
 
 	public SimpleDemo() {

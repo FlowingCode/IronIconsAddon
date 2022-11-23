@@ -23,25 +23,20 @@ import com.flowingcode.vaadin.addons.DemoLayout;
 import com.flowingcode.vaadin.addons.GithubLink;
 import com.flowingcode.vaadin.addons.demo.TabbedDemo;
 import com.vaadin.flow.component.dependency.StyleSheet;
-import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.router.ParentLayout;
 import com.vaadin.flow.router.Route;
 
 @SuppressWarnings("serial")
 @StyleSheet("context://frontend/styles/iron-icons/demo-styles.css")
-@Route(value = "iron-icons", layout = DemoLayout.class)
+@ParentLayout(DemoLayout.class)
+@Route("iron-icons")
 @GithubLink("https://github.com/FlowingCode/IronIconsAddon")
 public class IroniconsDemoView extends TabbedDemo {
 	
-	private static final String GALLERY_DEMO = "Icons Gallery";
-	private static final String SIMPLE_DEMO = "Simple Demo";
-	private static final String TEMPLATERENDERER_DEMO = "Template Renderer";
-	private static final String SIMPLE_SOURCE = "https://github.com/FlowingCode/IronIconsAddon/blob/master/src/test/java/com/flowingcode/vaadin/addons/ironicons/SimpleDemo.java";
-	private static final String TEMPLATERENDERER_SOURCE = "https://github.com/FlowingCode/IronIconsAddon/blob/master/src/test/java/com/flowingcode/vaadin/addons/ironicons/TemplateRendererDemo.java";
-
 	public IroniconsDemoView() {
-		addDemo(new IconsGalleryView(), GALLERY_DEMO);
-		addDemo(new SimpleDemo(), SIMPLE_DEMO, SIMPLE_SOURCE);
-		addDemo(new TemplateRendererDemo(), TEMPLATERENDERER_DEMO, TEMPLATERENDERER_SOURCE);
+		addDemo(IconsGalleryView.class);
+		addDemo(SimpleDemo.class);
+		addDemo(TemplateRendererDemo.class);
 		setSizeFull();
 	}
 

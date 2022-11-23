@@ -19,6 +19,7 @@
  */
 package com.flowingcode.vaadin.addons.ironicons;
 
+import com.flowingcode.vaadin.addons.demo.DemoSource;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
@@ -31,9 +32,10 @@ import com.vaadin.flow.component.html.H4;
 import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.orderedlayout.FlexLayout;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
-import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.value.ValueChangeMode;
+import com.vaadin.flow.router.PageTitle;
+import com.vaadin.flow.router.Route;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -57,6 +59,9 @@ import org.apache.commons.lang3.tuple.Pair;
 @Uses(com.flowingcode.vaadin.addons.ironicons.FileIcons.Icon.class)
 @StyleSheet("context://frontend/styles/iron-icons/demo-styles.css")
 @SuppressWarnings("serial")
+@PageTitle("Icons Gallery")
+@DemoSource
+@Route(value = "iron-icons/icons-gallery", layout = IroniconsDemoView.class)
 @CssImport(value = "./styles/vaadin-button.css", themeFor = "vaadin-button")
 public class IconsGalleryView extends Div {
 	// this demo uses reflection, for a simple example that does not use reflection

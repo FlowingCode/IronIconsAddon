@@ -1,6 +1,10 @@
 [![Build Status](https://jenkins.flowingcode.com/job/IronIcons-14-addon/badge/icon)](https://jenkins.flowingcode.com/job/IronIcons-14-addon)
 
-# Iron Icons Addon
+## DEPRECATED ⚠️
+
+As Vaadin dropped support for iron-icons, we will not support Vaadin 24+ for this add-on.
+
+# Iron Icons Addon 
 
 Vaadin 10+ constants for https://github.com/PolymerElements/iron-icons
 
